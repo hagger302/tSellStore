@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_dashbord">
+
+    <fragment
+        android:id="@+id/nav_dashbord"
+        android:name="com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment"
+        tools:layout="@layout/fragment_dashbord" />
+
+    <fragment
+        android:id="@+id/nav_myorders"
+        android:name="com.example.tsellstore.NavigationComponent.Myorders.MyOrdersFragment"
+        tools:layout="@layout/fragment_myorders" />
+
+    <fragment
+        android:id="@+id/nav_rewards"
+        android:name="com.example.tsellstore.NavigationComponent.MyRewards.MyRewardsFragment"
+        tools:layout="@layout/fragment_rewards" />
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.example.tsellstore.NavigationComponent.MyCart.MyCartFragment"
+        tools:layout="@layout/fragment_mycart"/>
+
+    <fragment
+        android:id="@+id/nav_wishlist"
+        android:name="com.example.tsellstore.NavigationComponent.MyWishList.MyWishListFragment"
+        tools:layout="@layout/fragment_mywishlist"/>
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="com.example.tsellstore.NavigationComponent.MyAccount.MyAccountFragment"
+        tools:layout="@layout/fragment_myaccount"/>
+
+    <fragment
+        android:id="@+id/nav_signout"
+        android:name="com.example.tsellstore.NavigationComponent.SignOut.signout"
+        tools:layout="@layout/fragment_signout"/>
+</navigation>
