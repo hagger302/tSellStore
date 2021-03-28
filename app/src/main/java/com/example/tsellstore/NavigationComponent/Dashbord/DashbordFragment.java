@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 
+import com.example.tsellstore.NavigationComponent.Dashbord.GridProduct.GridProductAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductADAPTER;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderAdapter;
@@ -158,7 +160,7 @@ public class DashbordFragment extends Fragment {
         //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
         stripAddImage = (ImageView) view.findViewById(R.id.strip_add_image);
         stripConstraintLayout = (ConstraintLayout) view.findViewById(R.id.strip_add_image_Constraintlayout);
-        stripAddImage.setImageResource(R.drawable.ic_mail);
+        //stripAddImage.setImageResource(R.drawable.ic_mail);
         stripConstraintLayout.setBackgroundColor(Color.parseColor("#121212"));
 
 
@@ -181,6 +183,20 @@ public class DashbordFragment extends Fragment {
         horizontal_list_item_recyclerView.setLayoutManager(linearLayoutManager1);
         horizontal_list_item_recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
+        TextView productTitle = (TextView) view.findViewById(R.id.grid_product_title);
+        Button view_all = (Button) view.findViewById(R.id.grid_product_button_view_all);
+        GridView  gridView = (GridView) view.findViewById(R.id.grid_product_gridview);
+
+        gridView.setAdapter(new GridProductAdapter(horizontalScrollProductModelList));
+
+        ////////////////////////////--------Main Recycler View ------------------>>>>>>>>>>>>>>>>>>>
+        RecyclerView testing = (RecyclerView) view.findViewById(R.id.testing);
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        testing.setLayoutManager(testingLayoutManager);
+
         return view;
     }
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
