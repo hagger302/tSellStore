@@ -23,6 +23,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.tsellstore.NavigationComponent.Dashbord.GridProduct.GridProductAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductADAPTER;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
+import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.DashbordAdapter;
+import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.DashbordModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel;
 import com.example.tsellstore.R;
@@ -157,6 +159,8 @@ public class DashbordFragment extends Fragment {
                 return false;
             }
         });
+
+
         //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
         stripAddImage = (ImageView) view.findViewById(R.id.strip_add_image);
         stripConstraintLayout = (ConstraintLayout) view.findViewById(R.id.strip_add_image_Constraintlayout);
@@ -197,6 +201,20 @@ public class DashbordFragment extends Fragment {
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         testing.setLayoutManager(testingLayoutManager);
 
+        List<DashbordModel> dashbordModelList = new ArrayList<>();
+
+        dashbordModelList.add(new DashbordModel(0,sliderModelList));
+        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
+        dashbordModelList.add(new DashbordModel(2,"Deals of the Day",horizontalScrollProductModelList));
+        dashbordModelList.add(new DashbordModel(3,"Title",horizontalScrollProductModelList));
+        dashbordModelList.add(new DashbordModel(0,sliderModelList));
+        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
+        dashbordModelList.add(new DashbordModel(0,sliderModelList));
+        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
+
+        DashbordAdapter dashbordAdapter = new DashbordAdapter(dashbordModelList);
+        testing.setAdapter(dashbordAdapter);
+        dashbordAdapter.notifyDataSetChanged();
         return view;
     }
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>

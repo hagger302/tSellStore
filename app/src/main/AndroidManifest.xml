@@ -11,10 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TSellStore">
+        <activity android:name=".CategoryActivity"></activity>
         <activity
             android:name=".NavigationComponent.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.TSellStore.NoActionBar"></activity>
+            android:theme="@style/Theme.TSellStore.NoActionBar" />
         <activity android:name=".SigninSignUp.RegisterActivity" />
         <activity
             android:name=".SpalshActivity"

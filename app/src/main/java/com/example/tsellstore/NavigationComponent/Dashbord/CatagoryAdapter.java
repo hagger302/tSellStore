@@ -1,6 +1,7 @@
 package com.example.tsellstore.NavigationComponent.Dashbord;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tsellstore.CategoryActivity;
 import com.example.tsellstore.R;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         String icon = catagoryModelList.get(position).getCatagoryLink();
         String name = catagoryModelList.get(position).getCatagoryName();
 
-        holder.setCategoryName(name);
+        holder.setCategory(name);
     }
 
     @Override
@@ -61,8 +63,17 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         private void setCategoryIcon(){
 
         }
-        private void setCategoryName(String name){
+        private void setCategory(String name){
             catagory_Name.setText(name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), CategoryActivity.class);
+                    intent.putExtra("CategoryName",name);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

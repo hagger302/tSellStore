@@ -1,15 +1,26 @@
 package com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.tsellstore.NavigationComponent.Dashbord.GridProduct.GridProductAdapter;
+import com.example.tsellstore.NavigationComponent.Dashbord.GridProduct.GridProductModel;
+import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductADAPTER;
+import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel;
 import com.example.tsellstore.R;
@@ -37,6 +48,12 @@ public class DashbordAdapter extends RecyclerView.Adapter {
              */
             case 0:
                 return DashbordModel.BANNER_SLIDER;
+            case 1:
+                return DashbordModel.STRIP_ADD_BANNER;
+            case 2:
+                return DashbordModel.HORIZONTAL_PRODUCT_VIEW;
+            case 3:
+                return  DashbordModel.GRID_PRODUCT_VIEW;
             default:
                 return -1;
         }
@@ -50,9 +67,22 @@ public class DashbordAdapter extends RecyclerView.Adapter {
             /**
              *  BannerSliderViewHolder r maddhome view ta return korbo.
              */
+            //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
             case DashbordModel.BANNER_SLIDER:
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_slider_layout, parent, false);
                 return new BannerSliderViewHolder(view);
+
+            case DashbordModel.STRIP_ADD_BANNER:
+                View strip_add_banner_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.strip_add_layout,parent,false);
+                return new StripAddBannerViewHolder(strip_add_banner_view);
+
+            case DashbordModel.HORIZONTAL_PRODUCT_VIEW:
+                View horizontal_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_layout,parent,false);
+                return new HorizontalProductViewViewHolder(horizontal_product_view);
+
+            case DashbordModel.GRID_PRODUCT_VIEW:
+                View grid_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_product_laout,parent,false);
+                return new GridProductViewViewHolder(grid_product_view);
             default:
                 return null;
         }
@@ -63,6 +93,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
         /**
          * Data Binding korbo Banner Slider e
          */
+        //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
         switch (dashbordModelList.get(position).getType()) {
             case DashbordModel.BANNER_SLIDER:
                 /**
@@ -75,6 +106,27 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
                 ((BannerSliderViewHolder) holder).setBannerSliderViewPagger(sliderModelList);
                 break;
+
+            case DashbordModel.STRIP_ADD_BANNER:
+                int resource = dashbordModelList.get(position).getResource();
+                String color = dashbordModelList.get(position).getBackgroundColor();
+
+                ((StripAddBannerViewHolder)holder).setStripAdd(resource,color);
+                break;
+
+               case DashbordModel.HORIZONTAL_PRODUCT_VIEW:
+                   String title = dashbordModelList.get(position).getTitle();
+                   List<HorizontalScrollProductModel> horizontalScrollProductModelList = dashbordModelList.get(position).getHorizontalScrollProductModelList();
+
+                   ((HorizontalProductViewViewHolder)holder).setHorizontalProductLayout(horizontalScrollProductModelList,title);
+                   break;
+
+            case DashbordModel.GRID_PRODUCT_VIEW:
+                String gridtitle = dashbordModelList.get(position).getTitle();
+                List<HorizontalScrollProductModel> gridScrollProductModelList = dashbordModelList.get(position).getHorizontalScrollProductModelList();
+
+                ((GridProductViewViewHolder)holder).setGridProductLayout(gridScrollProductModelList,gridtitle);
+                break;
             default:
                 return;
         }
@@ -84,7 +136,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return dashbordModelList.size();
     }
-
+    //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
     public class BannerSliderViewHolder extends RecyclerView.ViewHolder {
 
         //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
@@ -96,9 +148,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
         public BannerSliderViewHolder(@NonNull View itemView) {
             super(itemView);
-
             bannerSliderViewPagger = (ViewPager) itemView.findViewById(R.id.banner_slider_viewPager);
-
         }
 
         //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
@@ -147,7 +197,6 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-
         private void PagerLooper(List<SliderModel> sliderModelList) {
             //1 by 1 banner chage hbe
 
@@ -160,7 +209,6 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 bannerSliderViewPagger.setCurrentItem(currentPage, false);
             }
         }
-
         private void startBannerSlideShow(List<SliderModel> sliderModelList) {
             Handler handler = new Handler();
             Runnable update = new Runnable() {
@@ -180,9 +228,75 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 }
             }, DELAY_TIME, PERIOD_TIME);
         }
-
         private void stopBannerSlideShow() {
             timer.cancel();
+        }
+    }
+
+    //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
+    public class StripAddBannerViewHolder extends RecyclerView.ViewHolder{
+        private ImageView stripAddImage;
+        private ConstraintLayout stripConstraintLayout;
+        public StripAddBannerViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            stripAddImage = (ImageView) itemView.findViewById(R.id.strip_add_image);
+            stripConstraintLayout = (ConstraintLayout) itemView.findViewById(R.id.strip_add_image_Constraintlayout);
+
+        }
+        private void setStripAdd(int resource,String backgroundColor){
+            stripAddImage.setImageResource(resource);
+            stripConstraintLayout.setBackgroundColor(Color.parseColor(backgroundColor));
+        }
+    }
+
+    //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+    public class HorizontalProductViewViewHolder extends RecyclerView.ViewHolder{
+        private TextView todays_deals;
+        private Button view_all;
+        private RecyclerView horizontal_list_item_recyclerView;
+
+        public HorizontalProductViewViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            todays_deals = (TextView) itemView.findViewById(R.id.horizontal_scroll_layout_title);
+            view_all = (Button) itemView.findViewById(R.id.horizontal_scroll_layout_button_viewAll);
+            horizontal_list_item_recyclerView = (RecyclerView) itemView.findViewById(R.id.horizontal_scroll_layout_recyclerview);
+
+        }
+
+        private void setHorizontalProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList,String title){
+            todays_deals.setText(title);
+
+            if(horizontalScrollProductModelList.size() >8){
+                view_all.setVisibility(View.VISIBLE);
+            }else{
+                view_all.setVisibility(View.INVISIBLE);
+            }
+
+            HorizontalScrollProductADAPTER adapter = new HorizontalScrollProductADAPTER(horizontalScrollProductModelList);
+            LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(itemView.getContext());
+            linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+            horizontal_list_item_recyclerView.setLayoutManager(linearLayoutManager1);
+            horizontal_list_item_recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
+    public class GridProductViewViewHolder extends  RecyclerView.ViewHolder{
+        private GridView gridView;
+        private Button view_all;
+        private TextView productTitle;
+        public GridProductViewViewHolder(@NonNull View itemView) {
+            super(itemView);
+             productTitle = (TextView) itemView.findViewById(R.id.grid_product_title);
+             view_all = (Button) itemView.findViewById(R.id.grid_product_button_view_all);
+             gridView = (GridView) itemView.findViewById(R.id.grid_product_gridview);
+        }
+        private void setGridProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList,String title){
+            productTitle.setText(title);
+            gridView.setAdapter(new GridProductAdapter(horizontalScrollProductModelList));
         }
     }
 }
