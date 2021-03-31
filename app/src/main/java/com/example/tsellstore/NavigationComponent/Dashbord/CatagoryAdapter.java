@@ -41,7 +41,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         String icon = catagoryModelList.get(position).getCatagoryLink();
         String name = catagoryModelList.get(position).getCatagoryName();
 
-        holder.setCategory(name);
+        holder.setCategory(name,position);
     }
 
     @Override
@@ -52,26 +52,29 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
         private ImageView catagory_image_item;
-        private TextView catagory_Name;
+        private TextView categoryName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             catagory_image_item = (ImageView) itemView.findViewById(R.id.CatagoryIcon);
-            catagory_Name = (TextView) itemView.findViewById(R.id.catagory_Name);
+            categoryName = (TextView) itemView.findViewById(R.id.catagory_Name);
         }
 
         private void setCategoryIcon(){
 
         }
-        private void setCategory(String name){
-            catagory_Name.setText(name);
+        private void setCategory(String name,int position){
+            categoryName.setText(name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), CategoryActivity.class);
-                    intent.putExtra("CategoryName",name);
-                    itemView.getContext().startActivity(intent);
+                    if(position != 0){
+                        Intent intent = new Intent(itemView.getContext(), CategoryActivity.class);
+                        intent.putExtra("CategoryName",name);
+                        itemView.getContext().startActivity(intent);
+                    }
+
                 }
             });
         }

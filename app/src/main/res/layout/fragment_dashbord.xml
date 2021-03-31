@@ -16,8 +16,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
+    <!--
+     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/layout1"
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -68,9 +68,9 @@
 
 
     </ScrollView>
-
+     -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/testing"
+        android:id="@+id/dashBord_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

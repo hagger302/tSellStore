@@ -38,22 +38,25 @@ public class DashbordFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CatagoryAdapter adapter;
+    RecyclerView dashbord_recyclerview;
 
-    //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
-    private ViewPager bannerSliderViewPagger;
-    private List<SliderModel> sliderModelList;
-    private int currentPage = 2;
-    private Timer timer;
-    final private long DELAY_TIME = 3000;
-    final private long PERIOD_TIME = 3000;
-    //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
-    private ImageView stripAddImage;
-    private ConstraintLayout stripConstraintLayout;
-
-    //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
-    private TextView todays_deals;
-    private Button view_all;
-    private RecyclerView horizontal_list_item_recyclerView;
+    /**
+     *  //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
+     *     private ViewPager bannerSliderViewPagger;
+     *     private List<SliderModel> sliderModelList;
+     *     private int currentPage = 2;
+     *     private Timer timer;
+     *     final private long DELAY_TIME = 3000;
+     *     final private long PERIOD_TIME = 3000;
+     *     //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
+     *     private ImageView stripAddImage;
+     *     private ConstraintLayout stripConstraintLayout;
+     *
+     *     //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+     *     private TextView todays_deals;
+     *     private Button view_all;
+     *     private RecyclerView horizontal_list_item_recyclerView;
+     */
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class DashbordFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+
 
         //create the list and the list into Adapter
         List<CatagoryModel> catagoryModelList = new ArrayList<CatagoryModel>();
@@ -86,8 +90,10 @@ public class DashbordFragment extends Fragment {
 
         //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
 
-        bannerSliderViewPagger = (ViewPager) view.findViewById(R.id.banner_slider_viewPager);
-        sliderModelList = new ArrayList<>();
+        /**
+         *         bannerSliderViewPagger = (ViewPager) view.findViewById(R.id.banner_slider_viewPager);
+          */
+        List<SliderModel> sliderModelList = new ArrayList<>();
 
         //last dui ta banner
         sliderModelList.add(new SliderModel(R.drawable.ic_facebook, "#ff22")); //index 0
@@ -117,89 +123,100 @@ public class DashbordFragment extends Fragment {
          * pagerLoper name ekta method banabo jeta amader page k infinite loop kore dibe
          */
 
-        SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
-        bannerSliderViewPagger.setAdapter(sliderAdapter);
+        /**
+         * //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
+         *  SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
+         *         bannerSliderViewPagger.setAdapter(sliderAdapter);
+         *
+         *         bannerSliderViewPagger.setClipToPadding(false);
+         *         bannerSliderViewPagger.setPageMargin(20);
+         *         bannerSliderViewPagger.setCurrentItem(currentPage);
+         *
+         *
+         *          ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+         *             @Override
+         *             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+         *
+         *             }
+         *
+         *             @Override
+         *             public void onPageSelected(int position) {
+         *             }
+         *
+         *             @Override
+         *             public void onPageScrollStateChanged(int state) {
+         *                 if (state == ViewPager.SCROLL_STATE_IDLE) { //idle dewa r katron holo amader page r animationb ss and page second page e shift hoye gese so, eta user r samne dhora porbe na
+         *                     PagerLooper();
+         *                 }
+         *
+         *             }
+         *         };
+         *
+         *         bannerSliderViewPagger.addOnPageChangeListener(onPageChangeListener);
+         *
+         *         startBannerSlideShow();
+         *         //user jkn touch kore dhore rakbe tkn bondho hbe slide show --> facebook story type
+         *         bannerSliderViewPagger.setOnTouchListener(new View.OnTouchListener() {
+         *             @Override
+         *             public boolean onTouch(View v, MotionEvent event) {
+         *                 PagerLooper();
+         *                 stopBannerSlideShow();
+         *
+         *                 if (event.getAction() == MotionEvent.ACTION_UP) { //ACTION_UP mane holo user jkn hat sorai nibe
+         *                     startBannerSlideShow();
+         *                 }
+         *                 return false;
+         *             }
+         *         });
+         */
 
-        bannerSliderViewPagger.setClipToPadding(false);
-        bannerSliderViewPagger.setPageMargin(20);
-        bannerSliderViewPagger.setCurrentItem(currentPage);
+        /**
+         *  //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
+         *         stripAddImage = (ImageView) view.findViewById(R.id.strip_add_image);
+         *         stripConstraintLayout = (ConstraintLayout) view.findViewById(R.id.strip_add_image_Constraintlayout);
+         *         //stripAddImage.setImageResource(R.drawable.ic_mail);
+         *         stripConstraintLayout.setBackgroundColor(Color.parseColor("#121212"));
+         */
 
-        ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) { //idle dewa r katron holo amader page r animationb ss and page second page e shift hoye gese so, eta user r samne dhora porbe na
-                    PagerLooper();
-                }
-
-            }
-        };
-
-        bannerSliderViewPagger.addOnPageChangeListener(onPageChangeListener);
-
-        startBannerSlideShow();
-        //user jkn touch kore dhore rakbe tkn bondho hbe slide show --> facebook story type
-        bannerSliderViewPagger.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                PagerLooper();
-                stopBannerSlideShow();
-
-                if (event.getAction() == MotionEvent.ACTION_UP) { //ACTION_UP mane holo user jkn hat sorai nibe
-                    startBannerSlideShow();
-                }
-                return false;
-            }
-        });
-
-
-        //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
-        stripAddImage = (ImageView) view.findViewById(R.id.strip_add_image);
-        stripConstraintLayout = (ConstraintLayout) view.findViewById(R.id.strip_add_image_Constraintlayout);
-        //stripAddImage.setImageResource(R.drawable.ic_mail);
-        stripConstraintLayout.setBackgroundColor(Color.parseColor("#121212"));
-
+        /**
+         *   //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+         *         todays_deals = (TextView) view.findViewById(R.id.horizontal_scroll_layout_title);
+         *         view_all = (Button) view.findViewById(R.id.horizontal_scroll_layout_button_viewAll);
+         *         horizontal_list_item_recyclerView = (RecyclerView) view.findViewById(R.id.horizontal_scroll_layout_recyclerview);
+         */
 
         //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
-        todays_deals = (TextView) view.findViewById(R.id.horizontal_scroll_layout_title);
-        view_all = (Button) view.findViewById(R.id.horizontal_scroll_layout_button_viewAll);
-        horizontal_list_item_recyclerView = (RecyclerView) view.findViewById(R.id.horizontal_scroll_layout_recyclerview);
-
-
         List<HorizontalScrollProductModel> horizontalScrollProductModelList = new ArrayList<>();
         horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
         horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
         horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
         horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
 
-        HorizontalScrollProductADAPTER adapter = new HorizontalScrollProductADAPTER(horizontalScrollProductModelList);
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
-        linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+        /**
+         *  //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+         *         HorizontalScrollProductADAPTER adapter = new HorizontalScrollProductADAPTER(horizontalScrollProductModelList);
+         *         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
+         *         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+         *
+         *         horizontal_list_item_recyclerView.setLayoutManager(linearLayoutManager1);
+         *         horizontal_list_item_recyclerView.setAdapter(adapter);
+         *         adapter.notifyDataSetChanged();
+         */
 
-        horizontal_list_item_recyclerView.setLayoutManager(linearLayoutManager1);
-        horizontal_list_item_recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
-        TextView productTitle = (TextView) view.findViewById(R.id.grid_product_title);
-        Button view_all = (Button) view.findViewById(R.id.grid_product_button_view_all);
-        GridView  gridView = (GridView) view.findViewById(R.id.grid_product_gridview);
-
-        gridView.setAdapter(new GridProductAdapter(horizontalScrollProductModelList));
+        /**
+         *  //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
+         *         TextView productTitle = (TextView) view.findViewById(R.id.grid_product_title);
+         *         Button view_all = (Button) view.findViewById(R.id.grid_product_button_view_all);
+         *         GridView  gridView = (GridView) view.findViewById(R.id.grid_product_gridview);
+         *
+         *         gridView.setAdapter(new GridProductAdapter(horizontalScrollProductModelList));
+         */
 
         ////////////////////////////--------Main Recycler View ------------------>>>>>>>>>>>>>>>>>>>
-        RecyclerView testing = (RecyclerView) view.findViewById(R.id.testing);
+        dashbord_recyclerview = (RecyclerView) view.findViewById(R.id.dashBord_RecyclerView);
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        testing.setLayoutManager(testingLayoutManager);
+        dashbord_recyclerview.setLayoutManager(testingLayoutManager);
 
         List<DashbordModel> dashbordModelList = new ArrayList<>();
 
@@ -213,46 +230,49 @@ public class DashbordFragment extends Fragment {
         dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
 
         DashbordAdapter dashbordAdapter = new DashbordAdapter(dashbordModelList);
-        testing.setAdapter(dashbordAdapter);
+        dashbord_recyclerview.setAdapter(dashbordAdapter);
         dashbordAdapter.notifyDataSetChanged();
         return view;
     }
-    //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
 
-    private void PagerLooper() {
-        //1 by 1 banner chage hbe
-
-        if (currentPage == sliderModelList.size() - 2) {
-            currentPage = 2;
-            bannerSliderViewPagger.setCurrentItem(currentPage, false);
-        }
-        if (currentPage == 1) {
-            currentPage = sliderModelList.size() - 3;
-            bannerSliderViewPagger.setCurrentItem(currentPage, false);
-        }
-    }
-
-    private void startBannerSlideShow() {
-        Handler handler = new Handler();
-        Runnable update = new Runnable() {
-            @Override
-            public void run() {
-                if (currentPage >= sliderModelList.size()) {
-                    currentPage = 1;
-                }
-                bannerSliderViewPagger.setCurrentItem(currentPage++, true); //animation true
-            }
-        };
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(update);
-            }
-        }, DELAY_TIME, PERIOD_TIME);
-    }
-
-    private void stopBannerSlideShow() {
-        timer.cancel();
-    }
+    /**
+     * //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
+     *
+     *     private void PagerLooper() {
+     *         //1 by 1 banner chage hbe
+     *
+     *         if (currentPage == sliderModelList.size() - 2) {
+     *             currentPage = 2;
+     *             bannerSliderViewPagger.setCurrentItem(currentPage, false);
+     *         }
+     *         if (currentPage == 1) {
+     *             currentPage = sliderModelList.size() - 3;
+     *             bannerSliderViewPagger.setCurrentItem(currentPage, false);
+     *         }
+     *     }
+     *
+     *     private void startBannerSlideShow() {
+     *         Handler handler = new Handler();
+     *         Runnable update = new Runnable() {
+     *             @Override
+     *             public void run() {
+     *                 if (currentPage >= sliderModelList.size()) {
+     *                     currentPage = 1;
+     *                 }
+     *                 bannerSliderViewPagger.setCurrentItem(currentPage++, true); //animation true
+     *             }
+     *         };
+     *         timer = new Timer();
+     *         timer.schedule(new TimerTask() {
+     *             @Override
+     *             public void run() {
+     *                 handler.post(update);
+     *             }
+     *         }, DELAY_TIME, PERIOD_TIME);
+     *     }
+     *
+     *     private void stopBannerSlideShow() {
+     *         timer.cancel();
+     *     }
+     */
 }

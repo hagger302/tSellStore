@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TSellStore">
-        <activity android:name=".CategoryActivity"></activity>
+        <activity android:name=".ProductDetailsActivity"></activity>
+        <activity android:name=".CategoryActivity" />
         <activity
             android:name=".NavigationComponent.MainActivity"
             android:screenOrientation="portrait"
