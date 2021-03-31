@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -20,6 +23,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private ViewPager productImageViewPager;
     private TabLayout ViewPagerIndicator;
     private FloatingActionButton addToWishListBtn;
+    private static boolean ALREADY_ADDED_TO_WISHLIST =false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,22 @@ public class ProductDetailsActivity extends AppCompatActivity {
         //add the tab layout with the viewPager
         ViewPagerIndicator.setupWithViewPager(productImageViewPager,true);
 
+        /////////////--------->>>>>>>>FLOATING ACTION BUTTON
         addToWishListBtn = (FloatingActionButton) findViewById(R.id.add_to_wishlist);
+        addToWishListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ALREADY_ADDED_TO_WISHLIST){
+
+                    ALREADY_ADDED_TO_WISHLIST =false;
+                    addToWishListBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#d9d9d9")));
+                }else {
+                    ALREADY_ADDED_TO_WISHLIST =true;
+                    addToWishListBtn.setSupportImageTintList(getResources().getColorStateList(R.color.black));
+                }
+            }
+        });
+
 
         List<Integer> productImage = new ArrayList<>();
         productImage.add(R.drawable.dress_one);
