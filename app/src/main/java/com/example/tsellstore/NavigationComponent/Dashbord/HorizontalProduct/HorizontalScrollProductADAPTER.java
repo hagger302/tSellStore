@@ -1,5 +1,6 @@
 package com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tsellstore.ProductDetailsActivity;
 import com.example.tsellstore.R;
 
 import java.util.List;
@@ -67,6 +69,14 @@ public class HorizontalScrollProductADAPTER extends RecyclerView.Adapter<Horizon
             productTitle = (TextView) itemView.findViewById(R.id.h_s_product_title);
             productDescription = (TextView) itemView.findViewById(R.id.h_s_product_description);
             productPrice = (TextView) itemView.findViewById(R.id.h_s_product_price);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent productDetailIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(productDetailIntent);
+                }
+            });
         }
 
         private void setProductImage(int resource) {
