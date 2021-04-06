@@ -18,6 +18,7 @@ import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class CategoryActivity extends AppCompatActivity {
     private RecyclerView category_recyclerview;
     @Override
@@ -32,6 +33,7 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
 
         category_recyclerview = (RecyclerView) findViewById(R.id.category_recyclerview);
+
         List<SliderModel> sliderModelList = new ArrayList<>();
 
         //last dui ta banner

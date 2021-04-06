@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.example.tsellstore.NavigationComponent.MainActivity;
 import com.example.tsellstore.SigninSignUp.RegisterActivity;
@@ -20,10 +22,9 @@ public class SpalshActivity extends AppCompatActivity {
         setContentView(R.layout.activity_spalsh);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        SystemClock.sleep(5000);
-
-
+        SystemClock.sleep(2000);
     }
+
 
     @Override
     protected void onStart() {

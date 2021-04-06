@@ -51,9 +51,6 @@ public class signinFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
     private void setFragment(Fragment fragment) {

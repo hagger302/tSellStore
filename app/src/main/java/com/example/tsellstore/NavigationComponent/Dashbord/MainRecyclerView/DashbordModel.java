@@ -14,6 +14,8 @@ public class DashbordModel {
     public static final int STRIP_ADD_BANNER = 1;
     public static final int HORIZONTAL_PRODUCT_VIEW = 2;
     public static final int GRID_PRODUCT_VIEW = 3;
+
+
     private int type;
 
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
