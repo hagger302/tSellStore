@@ -6,23 +6,23 @@
     android:elevation="4dp"
     android:background="@color/white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/product_images_viewPager"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/view_pagger_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_images_viewPager"
@@ -31,18 +31,6 @@
         app:tabIndicatorHeight="0dp"
         app:tabRippleColor="@null" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_to_wishlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/ic_wishlist"
-        android:backgroundTint="@color/white"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/product_images_viewPager"
-        app:rippleColor="@color/black" />
 
     <TextView
         android:id="@+id/product_title"
@@ -63,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="@drawable/slider_background"
-        android:backgroundTint="@color/tStore_oachon_lightBlue"
+        android:backgroundTint="@color/tStore_ochan_lightBlue"
         android:orientation="horizontal"
         android:padding="1dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        android:backgroundTint="#80000000"
+        android:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/cutted_price"
         app:layout_constraintEnd_toEndOf="@+id/cutted_price"
         app:layout_constraintStart_toStartOf="@+id/cutted_price"
@@ -152,7 +140,6 @@
         android:layout_marginTop="8dp"
         android:text="Available"
         android:textSize="12sp"
-
         app:layout_constraintEnd_toEndOf="@+id/cod_indicator_imageview_floatingActionBtn"
         app:layout_constraintStart_toStartOf="@+id/cod_indicator_imageview_floatingActionBtn"
         app:layout_constraintTop_toBottomOf="@+id/cod_indicator_imageview_floatingActionBtn" />
@@ -161,11 +148,11 @@
         android:id="@+id/cupon_redemption_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/tStore_ochan_lightBlue"
+        android:gravity="right"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="right"
-        android:background="@color/tStore_oachon_lightBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -175,22 +162,33 @@
             android:id="@+id/tv_cupon_redemption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:layout_weight="1"
+            android:text="Check price after cupon redemption"
             android:textAlignment="center"
-            android:text="Check price after cupon redemption"/>
+            android:textColor="@color/black" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cuppon_redemption_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/tStore_oachon_lightBlue"
-            android:textColor="@color/black"
+            android:backgroundTint="@color/tStore_ochan_lightBlue"
+            android:text="Redem"
             android:textAllCaps="false"
+            android:textColor="@color/black"
             app:cornerRadius="4dp"
-            app:strokeWidth="1dp"
             app:strokeColor="@color/black"
-            android:text="Redem"/>
+            app:strokeWidth="1dp" />
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_to_wishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/product_images_viewPager"
+        app:srcCompat="@drawable/ic_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.tsellstore.NavigationComponent.Dashbord.GridProduct;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
+import com.example.tsellstore.ProductDetailsActivity;
 import com.example.tsellstore.R;
 
 import java.util.List;
+
 
 import static com.example.tsellstore.R.color.white;
 
@@ -45,6 +48,15 @@ public class GridProductAdapter  extends BaseAdapter {
            view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.horontal_scroll_recyclerview_item_layout,null);
            //view.setBackground(Color.parseColor(String.valueOf(white)));
             //view.setElevation(0); //for shadow effect
+
+            //////////////////------------>>>>>>>>>goto personal rating
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent productDetailsIntent = new Intent(parent.getContext(), ProductDetailsActivity.class);
+                    parent.getContext().startActivity(productDetailsIntent);
+                }
+            });
 
             ImageView productImage = (ImageView) view.findViewById(R.id.h_s_product_image);
             TextView productTitle = (TextView) view.findViewById(R.id.h_s_product_title);

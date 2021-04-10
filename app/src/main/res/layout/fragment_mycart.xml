@@ -7,14 +7,67 @@
     tools:context=".NavigationComponent.Myorders.MyOrdersFragment">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_cart"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cart_items_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tStore_recyclerView_color"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
-    </Button>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/add_to_cart_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/total_cart_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bdt. 10000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/aldrich"
+                android:drawablePadding="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Amount"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/aldrich" />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cart_continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Continue"
+            android:textColor="@color/black"
+            android:stateListAnimator="@null"
+            android:textStyle="bold"
+            android:fontFamily="@font/aldrich"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/tStore_ochan_lightBlue"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

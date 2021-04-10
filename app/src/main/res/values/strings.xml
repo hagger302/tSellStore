@@ -4,6 +4,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="nav_header_desc">Navigation header</string>
 
+    <string name="tk_sign">৳</string>
+
     <string name="menu_dashbord">Dashbord</string>
     <string name="menu_myorders">My_Orders</string>
     <string name="menu_myrewards">My_Rewards</string>
@@ -11,4 +13,9 @@
     <string name="my_cart">my_cart</string>
     <string name="my_account">my_account</string>
     <string name="my_signout">my_signout</string>
+
+    <string name="openNavBar">Navigation Drawer Open</string>
+    <string name="closeNavBar">Navigation Drawer Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

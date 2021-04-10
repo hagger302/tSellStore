@@ -29,7 +29,6 @@ public class Product_Images_Adapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((ImageView) object);
-        super.destroyItem(container, position, object);
     }
 
     @Override
