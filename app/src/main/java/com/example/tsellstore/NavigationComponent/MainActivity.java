@@ -1,16 +1,21 @@
 package com.example.tsellstore.NavigationComponent;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment;
 import com.example.tsellstore.NavigationComponent.MyCart.MyCartFragment;
+import com.example.tsellstore.NavigationComponent.MyRewards.MyRewardsFragment;
 import com.example.tsellstore.NavigationComponent.MyWishList.MyWishListFragment;
 import com.example.tsellstore.NavigationComponent.Myorders.MyOrdersFragment;
 import com.example.tsellstore.R;
@@ -39,21 +44,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int CART_FRAGMENT = 1;
     private static final int MY_ORDER_FRAGMENT = 2;
     private static final int MY_WISHLIST_FRAGMENT = 3;
+    private static final int MY_Reward_FRAGMENT = 4;
 
     private static int currentFragment = -1;
     NavigationView navigationView;
     private FrameLayout frameLayout;
     private TextView actionBar_logo;
+    private Toolbar toolbar;
+
+    //for changing the status bar color
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        actionBar_logo=(TextView) findViewById(R.id.actionBarLogo);
+        actionBar_logo = (TextView) findViewById(R.id.actionBarLogo);
 
+        //My Rewards fragment e status bar r color change korbo tai window call kora
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        //default back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -101,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else {
-            if(currentFragment == HOME_FRAGMENT){
+        } else {
+            if (currentFragment == HOME_FRAGMENT) {
                 super.onBackPressed();
-            }else {
+            } else {
                 actionBar_logo.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
                 setFragment(new DashbordFragment(), HOME_FRAGMENT);
@@ -139,20 +154,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.main_notification:
                 break;
             case R.id.main_cart:
-                gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
+                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void gotoFragment(String title,Fragment fragment,int fragmentNo) {
+    private void gotoFragment(String title, Fragment fragment, int fragmentNo) {
         actionBar_logo.setVisibility(View.GONE);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle(title);
         invalidateOptionsMenu();
         setFragment(fragment, fragmentNo);
-        if(fragmentNo == CART_FRAGMENT) {
+        if (fragmentNo == CART_FRAGMENT) {
             navigationView.getMenu().getItem(3).setChecked(true);
         }
     }
@@ -167,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    }
 
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -178,17 +192,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setFragment(new DashbordFragment(), HOME_FRAGMENT);
                 break;
             case R.id.nav_myorders:
-                gotoFragment("My Order",new MyOrdersFragment(),MY_ORDER_FRAGMENT);
+                gotoFragment("My Order", new MyOrdersFragment(), MY_ORDER_FRAGMENT);
                 break;
             case R.id.nav_rewards:
-
+                gotoFragment("My Reward", new MyRewardsFragment(), MY_Reward_FRAGMENT);
                 break;
             case R.id.nav_cart:
-                gotoFragment("My Cart",new MyCartFragment(),CART_FRAGMENT);
+                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
                 //setFragment(new MyCartFragment(),CART_FRAGMENT);
                 break;
             case R.id.nav_wishlist:
-                gotoFragment("My Wishlist",new MyWishListFragment(),MY_WISHLIST_FRAGMENT);
+                gotoFragment("My Wishlist", new MyWishListFragment(), MY_WISHLIST_FRAGMENT);
                 break;
             case R.id.nav_account:
                 break;
@@ -206,8 +220,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setFragment(Fragment fragment,int fragmentNo) {
-        if(fragmentNo != currentFragment) {
+    private void setFragment(Fragment fragment, int fragmentNo) {
+        if (fragmentNo != currentFragment) {
+            if (fragmentNo == MY_Reward_FRAGMENT) {
+                window.setStatusBarColor(getResources().getColor(R.color.tStore_green));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.tStore_green));
+            } else {
+                window.setStatusBarColor(getResources().getColor(R.color.tStore_ochan_lightBlue));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.tStore_ochan_lightBlue));
+            }
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
