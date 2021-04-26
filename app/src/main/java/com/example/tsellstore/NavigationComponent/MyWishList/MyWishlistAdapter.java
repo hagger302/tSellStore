@@ -1,5 +1,6 @@
 package com.example.tsellstore.NavigationComponent.MyWishList;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tsellstore.ProductDetailsActivity;
 import com.example.tsellstore.R;
 
 import java.util.List;
@@ -17,9 +19,11 @@ import java.util.List;
 public class MyWishlistAdapter extends RecyclerView.Adapter<MyWishlistAdapter.ViewHolder> {
 
     private List<MyWishListModel> myWishListModelList;
+    private Boolean wishlist;
 
-    public MyWishlistAdapter(List<MyWishListModel> myWishListModelList) {
+    public MyWishlistAdapter(List<MyWishListModel> myWishListModelList,Boolean wishlist) {
         this.myWishListModelList = myWishListModelList;
+        this.wishlist= wishlist;
     }
 
     @NonNull
@@ -101,10 +105,23 @@ public class MyWishlistAdapter extends RecyclerView.Adapter<MyWishlistAdapter.Vi
             cuttedPrice.setText(cuttedprice);
             paymentMethod.setText(paymentmethod);
 
+            if(wishlist){
+                delete.setVisibility(View.VISIBLE);
+            }else {
+                delete.setVisibility(View.GONE);
+            }
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(itemView.getContext(), "Valobasi tw Sweetieeeeeee", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), "Valobasi tw Sweetie", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

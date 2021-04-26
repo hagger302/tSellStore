@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -42,8 +44,10 @@
     <style name="Theme.TSellStore.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
     <style name="Theme.TSellStore.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="FullImageFloatingButton" parent="Widget.Design.FloatingActionButton">
         <item name="fabSize">normal</item>
         <item name="maxImageSize">56dp</item>
     </style>
+
 </resources>

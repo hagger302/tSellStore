@@ -1,4 +1,4 @@
-package com.example.tsellstore.NavigationComponent;
+package com.example.tsellstore.NavigationComponent.Myorders.OrderDetails;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.example.tsellstore;
+package com.example.tsellstore.NavigationComponent.MyRewards;
 
 public class MyRewardModel {
 

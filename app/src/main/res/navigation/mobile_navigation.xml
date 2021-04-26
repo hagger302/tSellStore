@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/nav_account"
-        android:name="com.example.tsellstore.NavigationComponent.MyAccount.MyAccountFragment"
+        android:name="com.example.tsellstore.NavigationComponent.MyAccount_Address_Delivery.MyAccountFragment"
         tools:layout="@layout/fragment_myaccount"/>
 
     <fragment

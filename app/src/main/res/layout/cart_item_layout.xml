@@ -175,7 +175,7 @@
             android:text="Remove your selected product"
             android:textColor="@color/black"
             android:drawablePadding="8dp"
-            android:drawableStart="@drawable/ic_delete"
+            android:drawableStart="@drawable/ic_settings"
             android:gravity="center"
             android:textStyle="bold"/>
     </LinearLayout>

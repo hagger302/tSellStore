@@ -1,15 +1,18 @@
 package com.example.tsellstore.NavigationComponent.MyCart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tsellstore.NavigationComponent.MyAccount_Address_Delivery.AddingAddressActivity;
 import com.example.tsellstore.R;
 
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ import java.util.List;
 public class MyCartFragment extends Fragment {
 
     private RecyclerView cartRecyclerView;
+    private Button continue_btn;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -25,6 +29,7 @@ public class MyCartFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_mycart, container, false);
 
         cartRecyclerView = (RecyclerView) root.findViewById(R.id.cart_items_recyclerview);
+        continue_btn = (Button) root.findViewById(R.id.cart_continue_btn);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cartRecyclerView.setLayoutManager(linearLayoutManager);
@@ -45,6 +50,13 @@ public class MyCartFragment extends Fragment {
         cartRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
+        continue_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddingAddressActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
         return root;
     }
 

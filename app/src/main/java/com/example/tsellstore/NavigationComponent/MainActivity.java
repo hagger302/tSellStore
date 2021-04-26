@@ -1,26 +1,27 @@
 package com.example.tsellstore.NavigationComponent;
 
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment;
+import com.example.tsellstore.NavigationComponent.MyAccount_Address_Delivery.MyAccountFragment;
 import com.example.tsellstore.NavigationComponent.MyCart.MyCartFragment;
 import com.example.tsellstore.NavigationComponent.MyRewards.MyRewardsFragment;
 import com.example.tsellstore.NavigationComponent.MyWishList.MyWishListFragment;
 import com.example.tsellstore.NavigationComponent.Myorders.MyOrdersFragment;
 import com.example.tsellstore.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.tsellstore.SigninSignUp.RegisterActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import static com.example.tsellstore.SigninSignUp.RegisterActivity.setSignUpFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int MY_ORDER_FRAGMENT = 2;
     private static final int MY_WISHLIST_FRAGMENT = 3;
     private static final int MY_Reward_FRAGMENT = 4;
+    private static final int MY_ACCOUNT_FRAGMENT = 5;
+    public static  Boolean showCart = false;
 
-    private static int currentFragment = -1;
+    private int currentFragment = -1; //static keyword sorai niyechi cz ekta Activity k dui jaiga e use krbo
     NavigationView navigationView;
     private FrameLayout frameLayout;
     private TextView actionBar_logo;
@@ -74,21 +76,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawer,
-                toolbar,
-                R.string.openNavBar,
-                R.string.closeNavBar
-        );
-        drawer.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = (FrameLayout) findViewById(R.id.main_framLayout);
 
-        setFragment(new DashbordFragment(), HOME_FRAGMENT);
-
+        if(showCart){
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            gotoFragment("My Cart",new MyCartFragment(),-2);
+        }else {
+            //hamburger icon
+            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                    this,
+                    drawer,
+                    toolbar,
+                    R.string.openNavBar,
+                    R.string.closeNavBar
+            );
+            drawer.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+            setFragment(new DashbordFragment(), HOME_FRAGMENT);
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -120,12 +129,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (currentFragment == HOME_FRAGMENT) {
+                currentFragment = -1;
                 super.onBackPressed();
             } else {
-                actionBar_logo.setVisibility(View.VISIBLE);
-                invalidateOptionsMenu();
-                setFragment(new DashbordFragment(), HOME_FRAGMENT);
-                navigationView.getMenu().getItem(0).setChecked(true);
+                if(showCart){
+                    showCart = false;
+                    finish();
+                }else {
+                    actionBar_logo.setVisibility(View.VISIBLE);
+                    invalidateOptionsMenu();
+                    setFragment(new DashbordFragment(), HOME_FRAGMENT);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                }
             }
 
         }
@@ -154,8 +169,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.main_notification:
                 break;
             case R.id.main_cart:
-                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+
+                Dialog signin_dialog = new Dialog(MainActivity.this);
+                signin_dialog.setContentView(R.layout.sign_in_dialog);
+                signin_dialog.setCancelable(true);
+                signin_dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                Button sign_in = signin_dialog.findViewById(R.id.signin_btn_quantitydialog);
+                Button sign_up = signin_dialog.findViewById(R.id.signup_btn_quantitydialog);
+
+                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+
+                sign_in.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        signin_dialog.dismiss();
+                        setSignUpFragment = false; //RegisterActivity te static method declear krchi
+                        startActivity(registerIntent);
+                    }
+                });
+                sign_up.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        signin_dialog.dismiss();
+                        setSignUpFragment = true;
+                        startActivity(registerIntent);
+                    }
+                });
+                signin_dialog.show();
+                //gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
                 break;
+            case android.R.id.home:
+                if(showCart) {
+                    showCart = false;
+                    finish();
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -205,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 gotoFragment("My Wishlist", new MyWishListFragment(), MY_WISHLIST_FRAGMENT);
                 break;
             case R.id.nav_account:
+                gotoFragment("My Account", new MyAccountFragment(), MY_ACCOUNT_FRAGMENT);
                 break;
             default:
                 Toast.makeText(this, "ILoVeYou-Sweetie", Toast.LENGTH_SHORT).show();
@@ -223,8 +272,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setFragment(Fragment fragment, int fragmentNo) {
         if (fragmentNo != currentFragment) {
             if (fragmentNo == MY_Reward_FRAGMENT) {
-                window.setStatusBarColor(getResources().getColor(R.color.tStore_green));
-                toolbar.setBackgroundColor(getResources().getColor(R.color.tStore_green));
+                window.setStatusBarColor(getResources().getColor(R.color.tStore_ochan_lightBlue));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.tStore_ochan_lightBlue));
             } else {
                 window.setStatusBarColor(getResources().getColor(R.color.tStore_ochan_lightBlue));
                 toolbar.setBackgroundColor(getResources().getColor(R.color.tStore_ochan_lightBlue));

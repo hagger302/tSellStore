@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/slider_background"
-    android:elevation="4dp"
+    android:backgroundTint="@color/tStore_recyclerView_color"
+    android:elevation="3dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -16,7 +17,6 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:fontFamily="@font/aldrich"
         app:layout_constraintBottom_toBottomOf="@+id/horizontal_scroll_layout_button_viewAll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontal_scroll_layout_button_viewAll"

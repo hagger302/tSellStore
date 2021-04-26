@@ -16,17 +16,15 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            >
+            android:layout_height="?attr/actionBarSize">
 
             <TextView
                 android:id="@+id/actionBarLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="tStore"
-                android:textSize="19sp"
+                android:textSize="21sp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/aldrich"
                 android:textStyle="bold"
                 android:textAllCaps="false"/>
 

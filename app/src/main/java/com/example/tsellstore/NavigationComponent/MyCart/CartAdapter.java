@@ -1,8 +1,11 @@
 package com.example.tsellstore.NavigationComponent.MyCart;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -133,6 +136,36 @@ public class CartAdapter extends RecyclerView.Adapter {
             } else {
                 offersApplied.setVisibility(View.INVISIBLE);
             }
+            productQuantity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Dialog quentity_dialog = new Dialog(itemView.getContext());
+                    quentity_dialog.setContentView(R.layout.quantity_dialog);
+                    quentity_dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    quentity_dialog.setCancelable(false);
+
+                    EditText quantity_edittext = quentity_dialog.findViewById(R.id.quantity_edtxt);
+                    Button cancel_Btn =  quentity_dialog.findViewById(R.id.cancel_btn_quantitydialog);
+                    Button ok_Btn = quentity_dialog.findViewById(R.id.ok_btn_quantitydialog);
+
+                    cancel_Btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            quentity_dialog.dismiss();
+                        }
+                    });
+
+                    ok_Btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            productQuantity.setText("Qty: " + quantity_edittext.getText().toString());
+                            quentity_dialog.dismiss();
+                        }
+                    });
+                    quentity_dialog.show();
+                }
+            });
+
         }
     }
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tsellstore.NavigationComponent.OrderDetailsActivity;
+import com.example.tsellstore.NavigationComponent.Myorders.OrderDetails.OrderDetailsActivity;
 import com.example.tsellstore.R;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -7,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridView;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,8 +24,11 @@ import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.Hor
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel;
+import com.example.tsellstore.ProductDetailsActivity;
 import com.example.tsellstore.R;
+import com.example.tsellstore.ViewAllActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,9 +37,11 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
     private List<DashbordModel> dashbordModelList;
+    private RecyclerView.RecycledViewPool recycledViewPool;
 
     public DashbordAdapter(List<DashbordModel> dashbordModelList) {
         this.dashbordModelList = dashbordModelList;
+        recycledViewPool = new RecyclerView.RecycledViewPool();
     }
 
     @Override
@@ -141,10 +147,12 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
         //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
         private ViewPager bannerSliderViewPagger;
-        private int currentPage = 2;
+        //private int currentPage = 2;
+        private int currentPage;
         private Timer timer;
-        final private long DELAY_TIME = 3000;
-        final private long PERIOD_TIME = 3000;
+        final private long DELAY_TIME = 2000;
+        final private long PERIOD_TIME = 2000;
+        private List<SliderModel> arrangeList;
 
         public BannerSliderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -154,7 +162,32 @@ public class DashbordAdapter extends RecyclerView.Adapter {
         //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
 
         private void setBannerSliderViewPagger(List<SliderModel> sliderModelList) {
-            SliderAdapter sliderAdapter = new SliderAdapter(sliderModelList);
+
+            /**
+             * jkn view recycle hoi tkn abr notun kore ei method call hoi tai simply check korbo
+             * timer null ase ki na
+             * jodi null na hoi tobe timer cancel hobe r startBannerSlideShow r maddhome new timer add hoye jabe
+             *
+             * jkn amra view k recycle kori tkn current page r no. 2 set krte hobe - e jonno method r moddhe set krbo
+             * current page r variable upre declare kore rakchi caz bar bar ei method call hoi so
+             */
+            currentPage = 2;
+            if(timer != null){
+                timer.cancel();
+            }
+            //tric for infinte bannar slider model data
+            arrangeList = new ArrayList<>();
+            for(int x = 0; x<sliderModelList.size();x++){
+                arrangeList.add(x,sliderModelList.get(x)); //sliderModelList r sokol eliment copy hoye giyeche
+            }
+            //arrangement krbo
+            arrangeList.add(0,sliderModelList.get(sliderModelList.size() - 2)); //second last item k 0 position e set kore diyechi
+            arrangeList.add(1,sliderModelList.get(sliderModelList.size() - 1)); //second first item k 1 position e set kore diyechi
+            arrangeList.add(sliderModelList.get(0));
+            arrangeList.add(sliderModelList.get(1));
+
+
+            SliderAdapter sliderAdapter = new SliderAdapter(arrangeList);
             bannerSliderViewPagger.setAdapter(sliderAdapter);
 
             bannerSliderViewPagger.setClipToPadding(false);
@@ -174,7 +207,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onPageScrollStateChanged(int state) {
                     if (state == ViewPager.SCROLL_STATE_IDLE) { //idle dewa r katron holo amader page r animationb ss and page second page e shift hoye gese so, eta user r samne dhora porbe na
-                        PagerLooper(sliderModelList);
+                        PagerLooper(arrangeList);
                     }
 
                 }
@@ -182,16 +215,16 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
             bannerSliderViewPagger.addOnPageChangeListener(onPageChangeListener);
 
-            startBannerSlideShow(sliderModelList);
+            startBannerSlideShow(arrangeList);
             //user jkn touch kore dhore rakbe tkn bondho hbe slide show --> facebook story type
             bannerSliderViewPagger.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    PagerLooper(sliderModelList);
+                    PagerLooper(arrangeList);
                     stopBannerSlideShow();
 
                     if (event.getAction() == MotionEvent.ACTION_UP) { //ACTION_UP mane holo user jkn hat sorai nibe
-                        startBannerSlideShow(sliderModelList);
+                        startBannerSlideShow(arrangeList);
                     }
                     return false;
                 }
@@ -263,13 +296,24 @@ public class DashbordAdapter extends RecyclerView.Adapter {
             view_all = (Button) itemView.findViewById(R.id.horizontal_scroll_layout_button_viewAll);
             horizontal_list_item_recyclerView = (RecyclerView) itemView.findViewById(R.id.horizontal_scroll_layout_recyclerview);
 
+            horizontal_list_item_recyclerView.setRecycledViewPool(recycledViewPool);
+
         }
 
         private void setHorizontalProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList,String title){
             todays_deals.setText(title);
 
-            if(horizontalScrollProductModelList.size() >8){
+            if(horizontalScrollProductModelList.size() >3){
                 view_all.setVisibility(View.VISIBLE);
+
+                view_all.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
+                        intent.putExtra("layout_code",0);
+                        itemView.getContext().startActivity(intent);
+                    }
+                });
             }else{
                 view_all.setVisibility(View.INVISIBLE);
             }
@@ -285,18 +329,50 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
     //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
     public class GridProductViewViewHolder extends  RecyclerView.ViewHolder{
-        private GridView gridView;
-        private Button view_all;
+        private androidx.gridlayout.widget.GridLayout gridLayout;
+        private Button view_all_grid;
         private TextView productTitle;
+
         public GridProductViewViewHolder(@NonNull View itemView) {
             super(itemView);
              productTitle = (TextView) itemView.findViewById(R.id.grid_product_title);
-             view_all = (Button) itemView.findViewById(R.id.grid_product_button_view_all);
-             gridView = (GridView) itemView.findViewById(R.id.grid_product_gridview);
+             view_all_grid = (Button) itemView.findViewById(R.id.grid_product_button_view_all);
+            gridLayout =  itemView.findViewById(R.id.grid_layout);
         }
         private void setGridProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList,String title){
             productTitle.setText(title);
-            gridView.setAdapter(new GridProductAdapter(horizontalScrollProductModelList));
+
+            for(int x=0; x<4; x++){
+                ImageView productImage = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_image);
+                TextView productTitle = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_title);
+                TextView productDescription = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_description);
+                TextView productPrice = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_price);
+
+                productImage.setImageResource(horizontalScrollProductModelList.get(x).getProductImage());
+                productTitle.setText(horizontalScrollProductModelList.get(x).getProductTitle());
+                productDescription.setText(horizontalScrollProductModelList.get(x).getProductDescription());
+                productPrice.setText(horizontalScrollProductModelList.get(x).getProductPrice());
+
+                gridLayout.getChildAt(x).setBackgroundColor(Color.parseColor("#ffffff"));
+
+                gridLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                        itemView.getContext().startActivity(productDetailsIntent);
+                    }
+                });
+            }
+
+
+            view_all_grid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
+                    intent.putExtra("layout_code",1);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tsellstore.MyRewardAdapter;
-import com.example.tsellstore.MyRewardModel;
 import com.example.tsellstore.R;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class MyRewardsFragment extends Fragment {
         myRewardModelList.add(new MyRewardModel("Cash back","21th April,2021","Get 20% off on any product above Bdt. 1000/- and bellow 3000/-"));
         myRewardModelList.add(new MyRewardModel("Buy 2 Get 1 Free","22th April,2021","Get 20% off on any product above Bdt. 1000/- and bellow 3000/-"));
 
-        MyRewardAdapter adapter = new MyRewardAdapter(myRewardModelList);
+        MyRewardAdapter adapter = new MyRewardAdapter(myRewardModelList,false); //false coming from MyRewardFragment theke
         myRewardRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return root;

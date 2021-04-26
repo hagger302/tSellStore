@@ -41,21 +41,21 @@ public class DashbordFragment extends Fragment {
     RecyclerView dashbord_recyclerview;
 
     /**
-     *  //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
-     *     private ViewPager bannerSliderViewPagger;
-     *     private List<SliderModel> sliderModelList;
-     *     private int currentPage = 2;
-     *     private Timer timer;
-     *     final private long DELAY_TIME = 3000;
-     *     final private long PERIOD_TIME = 3000;
-     *     //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
-     *     private ImageView stripAddImage;
-     *     private ConstraintLayout stripConstraintLayout;
-     *
-     *     //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
-     *     private TextView todays_deals;
-     *     private Button view_all;
-     *     private RecyclerView horizontal_list_item_recyclerView;
+     * //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
+     * private ViewPager bannerSliderViewPagger;
+     * private List<SliderModel> sliderModelList;
+     * private int currentPage = 2;
+     * private Timer timer;
+     * final private long DELAY_TIME = 3000;
+     * final private long PERIOD_TIME = 3000;
+     * //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
+     * private ImageView stripAddImage;
+     * private ConstraintLayout stripConstraintLayout;
+     * <p>
+     * //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+     * private TextView todays_deals;
+     * private Button view_all;
+     * private RecyclerView horizontal_list_item_recyclerView;
      */
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -74,6 +74,7 @@ public class DashbordFragment extends Fragment {
         List<CatagoryModel> catagoryModelList = new ArrayList<CatagoryModel>();
 
         catagoryModelList.add(new CatagoryModel("Link", "Home"));
+        catagoryModelList.add(new CatagoryModel("Link", "MONYKIT"));
         catagoryModelList.add(new CatagoryModel("Link", "Men"));
         catagoryModelList.add(new CatagoryModel("Link", "Women"));
         catagoryModelList.add(new CatagoryModel("Link", "Housing"));
@@ -92,26 +93,25 @@ public class DashbordFragment extends Fragment {
 
         /**
          *         bannerSliderViewPagger = (ViewPager) view.findViewById(R.id.banner_slider_viewPager);
-          */
+         */
         List<SliderModel> sliderModelList = new ArrayList<>();
 
         //last dui ta banner
         sliderModelList.add(new SliderModel(R.drawable.ic_facebook, "#ff22")); //index 0
         sliderModelList.add(new SliderModel(R.drawable.ic_gift, "#ff22"));//index 1
         sliderModelList.add(new SliderModel(R.drawable.ic_add_to_basket, "#ff22"));//index 2
-
         sliderModelList.add(new SliderModel(R.drawable.ic_account, "#ff22"));
         sliderModelList.add(new SliderModel(R.drawable.ic_ribbon_banner_silhouette, "#ff22"));
         sliderModelList.add(new SliderModel(R.drawable.ic_round_account_button_with_user_inside, "#ff22"));
         sliderModelList.add(new SliderModel(R.drawable.ic_contact, "#ff22"));
         sliderModelList.add(new SliderModel(R.drawable.ic_facebook, "#ff22"));
-
-
-        //nicher ta
         sliderModelList.add(new SliderModel(R.drawable.ic_gift, "#ff22"));
-        //first dui ta banner
         sliderModelList.add(new SliderModel(R.drawable.ic_add_to_basket, "#ff22"));
         sliderModelList.add(new SliderModel(R.drawable.ic_account, "#ff22"));
+
+        // prothom dui ta eliment niche r niche r dui ta elimaent uppre - result: infinite colte e thakbe -
+        // er jonno logic create krbo Adapter class e r impliment krbo ekhane - result: emn tric apply kora r drkr hbe na
+        //adapter r moddhe tric banaichi
 
         /**
          * all time the banner will recycle mane all time banner colte e thakbe
@@ -185,12 +185,12 @@ public class DashbordFragment extends Fragment {
          *         horizontal_list_item_recyclerView = (RecyclerView) view.findViewById(R.id.horizontal_scroll_layout_recyclerview);
          */
 
-        //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+        //////////////////////////--------Horizontal product Layout  eta e grid product e use korchi---------->>>>>>>>>>>>>>>>>>>>>
         List<HorizontalScrollProductModel> horizontalScrollProductModelList = new ArrayList<>();
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one,"Gawn","Girl's Dress","bdt. 12000"));
+        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
+        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
+        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
+        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
 
         /**
          *  //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
@@ -220,14 +220,14 @@ public class DashbordFragment extends Fragment {
 
         List<DashbordModel> dashbordModelList = new ArrayList<>();
 
-        dashbordModelList.add(new DashbordModel(0,sliderModelList));
-        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
-        dashbordModelList.add(new DashbordModel(2,"Deals of the Day",horizontalScrollProductModelList));
-        dashbordModelList.add(new DashbordModel(3,"Title",horizontalScrollProductModelList));
-        dashbordModelList.add(new DashbordModel(0,sliderModelList));
-        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
-        dashbordModelList.add(new DashbordModel(0,sliderModelList));
-        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
+        dashbordModelList.add(new DashbordModel(0, sliderModelList));
+        dashbordModelList.add(new DashbordModel(1, R.drawable.ic_account, "#ff2288"));
+        dashbordModelList.add(new DashbordModel(2, "Deals of the Day", horizontalScrollProductModelList));
+        dashbordModelList.add(new DashbordModel(3, "Deals of the Day", horizontalScrollProductModelList));
+//        dashbordModelList.add(new DashbordModel(0,sliderModelList));
+//        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
+//        dashbordModelList.add(new DashbordModel(0,sliderModelList));
+//        dashbordModelList.add(new DashbordModel(1,R.drawable.ic_account,"#ff2288"));
 
         DashbordAdapter dashbordAdapter = new DashbordAdapter(dashbordModelList);
         dashbord_recyclerview.setAdapter(dashbordAdapter);

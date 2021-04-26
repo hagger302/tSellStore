@@ -46,15 +46,13 @@
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/aldrich"
                 android:drawablePadding="8dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Amount"
                 android:textSize="16sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/aldrich" />
+                android:textColor="@color/black" />
         </LinearLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cart_continue_btn"
@@ -65,7 +63,6 @@
             android:textColor="@color/black"
             android:stateListAnimator="@null"
             android:textStyle="bold"
-            android:fontFamily="@font/aldrich"
             android:textAllCaps="false"
             android:backgroundTint="@color/tStore_ochan_lightBlue"/>
 

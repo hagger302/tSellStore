@@ -10,9 +10,9 @@
     <color name="colorPrimary">#ED0000</color>
 
     <color name="tStore_ochanDeapBlue">#28E4F4</color>
-    <color name="tStore_ochan_lightBlue">#C0DFED </color>
+    <color name="tStore_ochan_lightBlue">#e3f8fa </color>
     <color name="tStore_red">#ff2222 </color>
-    <color name="tStore_green">#49E34F</color>
+    <color name="tStore_green">#0B430D</color>
     <color name="tStore_grey">#b9b9b9</color>
     <color name="tStore_recyclerView_color">#F3F3F3</color>
 </resources>
