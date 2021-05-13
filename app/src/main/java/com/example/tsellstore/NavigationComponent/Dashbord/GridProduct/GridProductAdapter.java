@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.ProductDetailsActivity;
 import com.example.tsellstore.R;
@@ -66,10 +68,10 @@ public class GridProductAdapter  extends BaseAdapter {
             /**
              * next -> simplely we set this (productImage,productTitle,productDescription,productPrice,) through the constructor
              */
-            productImage.setImageResource(horizontalScrollProductModelList.get(position).getProductImage());
+            Glide.with(parent.getContext()).load(horizontalScrollProductModelList.get(position).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(productImage);
             productTitle.setText(horizontalScrollProductModelList.get(position).getProductTitle());
             productDescription.setText(horizontalScrollProductModelList.get(position).getProductDescription());
-            productPrice.setText(horizontalScrollProductModelList.get(position).getProductPrice());
+            productPrice.setText("Bdt. "+horizontalScrollProductModelList.get(position).getProductPrice()+" /-");
         }else{
             view = convertView;
         }

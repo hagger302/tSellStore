@@ -34,13 +34,15 @@
 
     <TextView
         android:id="@+id/product_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="Product Title"
         android:textColor="@color/black"
         android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_pagger_indicator" />
 
@@ -122,16 +124,18 @@
         app:layout_constraintStart_toStartOf="@+id/cutted_price"
         app:layout_constraintTop_toTopOf="@+id/cutted_price" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/cod_indicator_imageview_floatingActionBtn"
+    <TextView
+        android:id="@+id/cod_indicator_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:text="Cash On Delevary"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/cutted_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_pagger_indicator"
-        app:srcCompat="@android:drawable/btn_star_big_off" />
+        />
 
     <TextView
         android:id="@+id/tv_cod_indicator"
@@ -139,10 +143,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Available"
+        android:textColor="@color/black"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/cod_indicator_imageview_floatingActionBtn"
-        app:layout_constraintStart_toStartOf="@+id/cod_indicator_imageview_floatingActionBtn"
-        app:layout_constraintTop_toBottomOf="@+id/cod_indicator_imageview_floatingActionBtn" />
+        app:layout_constraintEnd_toEndOf="@+id/cod_indicator_textView"
+        app:layout_constraintStart_toStartOf="@+id/cod_indicator_textView"
+        app:layout_constraintTop_toBottomOf="@+id/cod_indicator_textView" />
 
     <LinearLayout
         android:id="@+id/cupon_redemption_layout"

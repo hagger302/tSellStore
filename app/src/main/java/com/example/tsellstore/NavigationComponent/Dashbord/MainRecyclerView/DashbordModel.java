@@ -1,11 +1,8 @@
 package com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView;
 
-import android.widget.ImageView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel;
+import com.example.tsellstore.NavigationComponent.MyWishList.MyWishListModel;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class DashbordModel {
 
 
     private int type;
+    private String backgroundColor;
 
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
     private List<SliderModel> sliderModelList;
@@ -39,18 +37,17 @@ public class DashbordModel {
     }
 
     //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
-    private int resource;
-    private String backgroundColor;
+    private String resource;
 
-    public DashbordModel(int type, int resource, String backgroundColor) {
+    public DashbordModel(int type, String resource, String backgroundColor) {
         this.type = type;
         this.resource = resource;
         this.backgroundColor = backgroundColor;
     }
-    public int getResource() {
+    public String getResource() {
         return resource;
     }
-    public void setResource(int resource) {
+    public void setResource(String resource) {
         this.resource = resource;
     }
     public String getBackgroundColor() {
@@ -60,16 +57,38 @@ public class DashbordModel {
         this.backgroundColor = backgroundColor;
     }
 
-    //////////////////////////--------Horizontal product Layout && Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
-    private String title;
+
+    private String title; /////commonly use for Horizontal and Grid
     private List<HorizontalScrollProductModel> horizontalScrollProductModelList;
 
-    public DashbordModel(int type, String title, List<HorizontalScrollProductModel> horizontalScrollProductModelList) {
+    //////////////////////////--------Horizontal product Layout ---------->>>>>>>>>>>>>>>>>>>>>
+    private List<MyWishListModel> viewAllProductList;
+
+    public DashbordModel(int type, String title, String backgroundColor,List<HorizontalScrollProductModel> horizontalScrollProductModelList,List<MyWishListModel> viewAllProductList) {
         this.type = type;
         this.title = title;
+        this.backgroundColor = backgroundColor;
+        this.horizontalScrollProductModelList = horizontalScrollProductModelList;
+        this.viewAllProductList = viewAllProductList;
+    }
+
+    public DashbordModel(int type, String title, String backgroundColor,List<HorizontalScrollProductModel> horizontalScrollProductModelList) {
+        this.type = type;
+        this.title = title;
+        this.backgroundColor = backgroundColor;
         this.horizontalScrollProductModelList = horizontalScrollProductModelList;
     }
 
+    public List<MyWishListModel> getViewAllProductList() {
+        return viewAllProductList;
+    }
+
+    public void setViewAllProductList(List<MyWishListModel> viewAllProductList) {
+        this.viewAllProductList = viewAllProductList;
+    }
+    //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
+
+    //////////////////////////--------Grid Product Layout---------->>>>>>>>>>>>>>>>>>>>>
     public String getTitle() {
         return title;
     }
@@ -86,5 +105,5 @@ public class DashbordModel {
         this.horizontalScrollProductModelList = horizontalScrollProductModelList;
     }
 
-    //////////////////////////--------Horizontal product Layout && Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
+    //////////////////////////--------Grid Product Layout---------->>>>>>>>>>>>>>>>>>>>>
 }

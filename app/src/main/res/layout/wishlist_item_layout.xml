@@ -22,13 +22,14 @@
 
     <TextView
         android:id="@+id/product_title_my_wisthlist"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Sweetiee dress"
         android:textColor="@color/black"
         android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_image_my_wisthlist"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +83,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
             android:background="@drawable/ic_star"
-            android:backgroundTint="@color/white" />
+            android:backgroundTint="@color/black" />
     </LinearLayout>
 
     <TextView
@@ -91,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="(20) ratings"
+        android:textColor="@color/black"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintStart_toEndOf="@+id/linearLayout2"
@@ -115,6 +117,7 @@
         android:layout_marginStart="8dp"
         android:text="Bdt. 12000/-"
         android:textSize="12sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/product_price_mywishlist"
         app:layout_constraintStart_toEndOf="@+id/product_price_mywishlist"
         app:layout_constraintTop_toTopOf="@+id/product_price_mywishlist" />
@@ -125,6 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
+        android:textColor="@color/black"
         android:text="cash on delivery available."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/product_price_mywishlist"
@@ -135,7 +139,7 @@
         android:layout_width="40dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/cutted_price_mywishlist"
         app:layout_constraintEnd_toEndOf="@+id/cutted_price_mywishlist"
         app:layout_constraintStart_toStartOf="@+id/cutted_price_mywishlist"

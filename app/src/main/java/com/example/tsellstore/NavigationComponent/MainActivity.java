@@ -1,7 +1,11 @@
 package com.example.tsellstore.NavigationComponent;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +15,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment;
 import com.example.tsellstore.NavigationComponent.MyAccount_Address_Delivery.MyAccountFragment;
 import com.example.tsellstore.NavigationComponent.MyCart.MyCartFragment;
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int MY_ACCOUNT_FRAGMENT = 5;
     public static  Boolean showCart = false;
 
+
     private int currentFragment = -1; //static keyword sorai niyechi cz ekta Activity k dui jaiga e use krbo
     NavigationView navigationView;
     private FrameLayout frameLayout;
@@ -81,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = (FrameLayout) findViewById(R.id.main_framLayout);
 
-        if(showCart){
+        if (showCart) {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            gotoFragment("My Cart",new MyCartFragment(),-2);
-        }else {
+            gotoFragment("My Cart", new MyCartFragment(), -2);
+        } else {
             //hamburger icon
             ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                     this,
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             actionBarDrawerToggle.syncState();
             setFragment(new DashbordFragment(), HOME_FRAGMENT);
         }
+    }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -120,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-    }
+
 
     @Override
     public void onBackPressed() {

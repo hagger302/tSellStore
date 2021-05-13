@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="3dp"
+    tools:context=".ProductDescriptionFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tv_product_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="This piece is a classically designed 9 carat white gold diamond ring.
+         The centre solitaire is a brilliant cut stone and is 0.07ct in size,
+          held in place within an illusion setting. Twin bezel-set 0.015ct stones are placed either side of the mount.\n\n
+- 9ct White Gold\n
+- Brilliant Cut Diamond Solitaire\n
+- Total Diamond Weight: 0.10ct\n
+- Illusion Set" />
+
+</FrameLayout>

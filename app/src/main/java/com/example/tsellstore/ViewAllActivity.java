@@ -25,6 +25,11 @@ public class ViewAllActivity extends AppCompatActivity {
     private GridView viewAllGridView;
     int layout_code;
 
+    //Dinamically access korb -> DAtabase theke data retrive krbo -
+    //ekhane list initialize krbo na -> initialize krbo tkn jkn user view all btn e press korbe -> goto Dashbord Adapter
+
+    public static  List<HorizontalScrollProductModel> horizontalScrollProductModelList;
+    public static  List<MyWishListModel> wishListModelList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,7 @@ public class ViewAllActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar() .setTitle("Deals of the day");
+        getSupportActionBar() .setTitle(getIntent().getStringExtra("title"));
 
 
         viewAllRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_viewall);
@@ -49,30 +54,13 @@ public class ViewAllActivity extends AppCompatActivity {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             viewAllRecyclerView.setLayoutManager(layoutManager);
 
-            List<MyWishListModel> myWishListModelList = new ArrayList<>();
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 1, "4", 3, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 2, "3", 2, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 3, "2", 0, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 2, "1", 1, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 2, "1", 1, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-            myWishListModelList.add(new MyWishListModel(R.drawable.dress_one, "Sweetie Dress", 2, "1", 1, "Bdt. 1000/-", "Bdt. 1200/-", "cash on delivery available"));
-
-            MyWishlistAdapter adapter = new MyWishlistAdapter(myWishListModelList,false);
+            MyWishlistAdapter adapter = new MyWishlistAdapter(wishListModelList,false);
             viewAllRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
         } else if (layout_code == 1) {
             viewAllGridView.setVisibility(View.VISIBLE);
 
-            List<HorizontalScrollProductModel> horizontalScrollProductModelList = new ArrayList<>();
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-            horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
 
 
             GridProductAdapter adapter1 = new GridProductAdapter(horizontalScrollProductModelList);

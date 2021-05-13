@@ -2,16 +2,16 @@ package com.example.tsellstore.NavigationComponent.MyWishList;
 
 public class MyWishListModel {
 
-    private int productImage;
+    private String productImage;
     private String productTitle;
-    private int freeCupon;
+    private long freeCupon;
     private String rating;
-    private int totalRating;
+    private long totalRating;
     private String productPrice;
     private String cuttedtPrice;
-    private String paymentMethod;
+    private boolean COD;
 
-    public MyWishListModel(int productImage, String productTitle, int freeCupon, String rating, int totalRating, String productPrice, String cuttedtPrice, String paymentMethod) {
+    public MyWishListModel(String productImage, String productTitle, long freeCupon, String rating, long totalRating, String productPrice, String cuttedtPrice, boolean COD) {
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.freeCupon = freeCupon;
@@ -19,14 +19,14 @@ public class MyWishListModel {
         this.totalRating = totalRating;
         this.productPrice = productPrice;
         this.cuttedtPrice = cuttedtPrice;
-        this.paymentMethod = paymentMethod;
+        this.COD = COD;
     }
 
-    public int getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(int productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
@@ -38,11 +38,11 @@ public class MyWishListModel {
         this.productTitle = productTitle;
     }
 
-    public int getFreeCupon() {
+    public long getFreeCupon() {
         return freeCupon;
     }
 
-    public void setFreeCupon(int freeCupon) {
+    public void setFreeCupon(long freeCupon) {
         this.freeCupon = freeCupon;
     }
 
@@ -54,11 +54,11 @@ public class MyWishListModel {
         this.rating = rating;
     }
 
-    public int getTotalRating() {
+    public long getTotalRating() {
         return totalRating;
     }
 
-    public void setTotalRating(int totalRating) {
+    public void setTotalRating(long totalRating) {
         this.totalRating = totalRating;
     }
 
@@ -78,25 +78,25 @@ public class MyWishListModel {
         this.cuttedtPrice = cuttedtPrice;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public boolean getCOD() {
+        return COD;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setCOD(boolean COD) {
+        this.COD = COD;
     }
 
     @Override
     public String toString() {
         return "MyWishListModel{" +
-                "productImage=" + productImage +
+                "productImage='" + productImage + '\'' +
                 ", productTitle='" + productTitle + '\'' +
                 ", freeCupon=" + freeCupon +
                 ", rating='" + rating + '\'' +
                 ", totalRating=" + totalRating +
                 ", productPrice='" + productPrice + '\'' +
                 ", cuttedtPrice='" + cuttedtPrice + '\'' +
-                ", paymentMethod='" + paymentMethod + '\'' +
+                ", COD=" + COD +
                 '}';
     }
 }

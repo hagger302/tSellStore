@@ -19,9 +19,17 @@ import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.tsellstore.DatabaseQueries.lists;
+import static com.example.tsellstore.DatabaseQueries.loadFragmentData;
+import static com.example.tsellstore.DatabaseQueries.loadedCategoriesNames;
+
 
 public class CategoryActivity extends AppCompatActivity {
+
     private RecyclerView category_recyclerview;
+    private DashbordAdapter dashbordAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,50 +43,31 @@ public class CategoryActivity extends AppCompatActivity {
 
         category_recyclerview = (RecyclerView) findViewById(R.id.category_recyclerview);
 
-        List<SliderModel> sliderModelList = new ArrayList<>();
-
-        //last dui ta banner
-        sliderModelList.add(new SliderModel(R.drawable.ic_facebook, "#ff22")); //index 0
-        sliderModelList.add(new SliderModel(R.drawable.ic_gift, "#ff22"));//index 1
-        sliderModelList.add(new SliderModel(R.drawable.ic_add_to_basket, "#ff22"));//index 2
-
-        sliderModelList.add(new SliderModel(R.drawable.ic_account, "#ff22"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_ribbon_banner_silhouette, "#ff22"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_round_account_button_with_user_inside, "#ff22"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_contact, "#ff22"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_facebook, "#ff22"));
-
-
-        //nicher ta
-        sliderModelList.add(new SliderModel(R.drawable.ic_gift, "#ff22"));
-        //first dui ta banner
-        sliderModelList.add(new SliderModel(R.drawable.ic_add_to_basket, "#ff22"));
-        sliderModelList.add(new SliderModel(R.drawable.ic_account, "#ff22"));
-
         //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
-        List<HorizontalScrollProductModel> horizontalScrollProductModelList = new ArrayList<>();
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-        horizontalScrollProductModelList.add(new HorizontalScrollProductModel(R.drawable.dress_one, "Gawn", "Girl's Dress", "bdt. 12000"));
-
         ////////////////////////////--------Main Recycler View ------------------>>>>>>>>>>>>>>>>>>>
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         category_recyclerview.setLayoutManager(testingLayoutManager);
 
-        List<DashbordModel> dashbordModelList = new ArrayList<>();
 
-        dashbordModelList.add(new DashbordModel(0, sliderModelList));
-        dashbordModelList.add(new DashbordModel(1, R.drawable.ic_account, "#ff2288"));
-        dashbordModelList.add(new DashbordModel(2, "Deals of the Day", horizontalScrollProductModelList));
-        dashbordModelList.add(new DashbordModel(3, "Title", horizontalScrollProductModelList));
-        dashbordModelList.add(new DashbordModel(0, sliderModelList));
-        dashbordModelList.add(new DashbordModel(1, R.drawable.ic_account, "#ff2288"));
-        dashbordModelList.add(new DashbordModel(0, sliderModelList));
-        dashbordModelList.add(new DashbordModel(1, R.drawable.ic_account, "#ff2288"));
+        //at first check krbo user 1st e data access korche ki na jodi access kore tobe oi data amra re use krbo
+        int listPosition = 0;
 
-        DashbordAdapter dashbordAdapter = new DashbordAdapter(dashbordModelList);
+        for(int x= 0; x <loadedCategoriesNames.size(); x++){
+            if(loadedCategoriesNames.get(x).equals(title.toUpperCase())){
+                listPosition=x;
+            }
+        }
+
+        //notun data niye asbo database theke
+        if(listPosition == 0){
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<DashbordModel>());
+            dashbordAdapter = new DashbordAdapter(lists.get(loadedCategoriesNames.size() - 1));
+            loadFragmentData(dashbordAdapter,this,loadedCategoriesNames.size() - 1,title);
+        }else {
+            dashbordAdapter = new DashbordAdapter(lists.get(listPosition));
+        }
         category_recyclerview.setAdapter(dashbordAdapter);
         dashbordAdapter.notifyDataSetChanged();
 

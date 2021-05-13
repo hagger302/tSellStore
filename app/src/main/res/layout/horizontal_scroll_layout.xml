@@ -5,6 +5,7 @@
     android:background="@drawable/slider_background"
     android:backgroundTint="@color/tStore_recyclerView_color"
     android:elevation="3dp"
+    android:id="@+id/containerHorizontalProductLAyout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

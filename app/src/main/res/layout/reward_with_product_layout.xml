@@ -39,7 +39,7 @@
         android:id="@+id/reward_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Payment method"
+        android:text="Payment method. No Charge for sweetieee."
         android:textSize="14dp"
         android:textColor="@color/black"
         android:layout_marginStart="16dp"

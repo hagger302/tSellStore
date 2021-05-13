@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.tsellstore.CategoryActivity;
 import com.example.tsellstore.R;
 
@@ -42,6 +45,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         String name = catagoryModelList.get(position).getCatagoryName();
 
         holder.setCategory(name,position);
+        holder.setCategoryIcon(icon);
     }
 
     @Override
@@ -51,16 +55,19 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
-        private ImageView catagory_image_item;
+        private ImageView icon;
         private TextView categoryName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            catagory_image_item = (ImageView) itemView.findViewById(R.id.CatagoryIcon);
+            icon = (ImageView) itemView.findViewById(R.id.CatagoryIcon);
             categoryName = (TextView) itemView.findViewById(R.id.catagory_Name);
         }
 
-        private void setCategoryIcon(){
+        private void setCategoryIcon(String iconUrl){
+            if(!iconUrl.equals("null")){
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.dress_one)).into(icon);
+            }
 
         }
         private void setCategory(String name,int position){
