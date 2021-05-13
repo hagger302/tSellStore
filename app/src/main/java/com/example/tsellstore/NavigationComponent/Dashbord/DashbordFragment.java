@@ -1,4 +1,4 @@
- package com.example.tsellstore.NavigationComponent.Dashbord;
+package com.example.tsellstore.NavigationComponent.Dashbord;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -52,30 +53,38 @@ import static com.example.tsellstore.DatabaseQueries.loadFragmentData;
 import static com.example.tsellstore.DatabaseQueries.loadedCategoriesNames;
 
 
- public class DashbordFragment extends Fragment {
+public class DashbordFragment extends Fragment {
+
+    private ConnectivityManager connectivityManager;
+    private NetworkInfo networkInfo;
+
+    public static SwipeRefreshLayout swipeRefreshLayout;
 
     private RecyclerView recyclerView;
     private CatagoryAdapter categoryAdapter;
     RecyclerView dashbord_recyclerview;
     private ImageView noInternetConnection;
 
+
     private DashbordAdapter dashbordAdapter;
 
 
-    public DashbordFragment(){
+    public DashbordFragment() {
 
     }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_dashbord, container, false);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
 
         ///////--------->>>>> Check the Internet Permission
         noInternetConnection = (ImageView) view.findViewById(R.id.no_internet_connection);
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if(networkInfo != null && networkInfo.isConnected() == true){ /////////////////--------->Check the Internet Permission
+        if (networkInfo != null && networkInfo.isConnected() == true) { /////////////////--------->Check the Internet Permission
             noInternetConnection.setVisibility(View.GONE);
 
             //adding the recycler view
@@ -89,9 +98,9 @@ import static com.example.tsellstore.DatabaseQueries.loadedCategoriesNames;
             categoryAdapter = new CatagoryAdapter(categoryModelList);
             recyclerView.setAdapter(categoryAdapter);
 
-            if(categoryModelList.size() == 0){
-                loadCategories(categoryAdapter,getContext());
-            }else {
+            if (categoryModelList.size() == 0) {
+                loadCategories(categoryAdapter, getContext());
+            } else {
                 categoryAdapter.notifyDataSetChanged();
             }
 
@@ -102,24 +111,47 @@ import static com.example.tsellstore.DatabaseQueries.loadedCategoriesNames;
             dashbord_recyclerview.setLayoutManager(testingLayoutManager);
 
 
-
-            if(lists.size() == 0){
+            if (lists.size() == 0) {
                 loadedCategoriesNames.add("HOME");
                 lists.add(new ArrayList<DashbordModel>());
                 dashbordAdapter = new DashbordAdapter(lists.get(0));
-                loadFragmentData(dashbordAdapter,getContext(),0,"HOME");
-            }else {
+                loadFragmentData(dashbordAdapter, getContext(), 0, "HOME");
+            } else {
                 dashbordAdapter = new DashbordAdapter(lists.get(0));
                 dashbordAdapter.notifyDataSetChanged();
             }
             dashbord_recyclerview.setAdapter(dashbordAdapter);
-        }else {
+        } else {
             Glide.with(this).load(R.drawable.ic_home).into(noInternetConnection);
             noInternetConnection.setVisibility(View.VISIBLE);
         }
+        //swipeRefresh Layout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
+                swipeRefreshLayout.setRefreshing(true);
 
+                categoryModelList.clear();
+                lists.clear(); //database Query te Dash bord Model list
+                loadedCategoriesNames.clear();
 
+                if (networkInfo != null && networkInfo.isConnected() == true) {
+                    noInternetConnection.setVisibility(View.GONE);
+                    //categories load hbe
+                    loadCategories(categoryAdapter, getContext());
+                    //fragment r moddhe data load hbe
+                    loadedCategoriesNames.add("HOME");
+                    lists.add(new ArrayList<DashbordModel>());
+                    //ekhane ekta parameter create krbo cz jkn refresh ses hoye jabe tkn swipe Refresh Layout progressbar invisible hoye jabe
+                    loadFragmentData(dashbordAdapter, getContext(), 0, "HOME");
 
+                } else {
+                    Glide.with(getActivity()).load(R.drawable.ic_home).into(noInternetConnection);
+                    noInternetConnection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return view;
     }
 

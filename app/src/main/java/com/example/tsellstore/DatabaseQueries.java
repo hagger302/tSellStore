@@ -4,9 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tsellstore.NavigationComponent.Dashbord.CatagoryAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.CatagoryModel;
+import com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment;
 import com.example.tsellstore.NavigationComponent.Dashbord.HorizontalProduct.HorizontalScrollProductModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.DashbordAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.DashbordModel;
@@ -29,7 +31,6 @@ public class DatabaseQueries {
     public static List<List<DashbordModel>> lists = new ArrayList<>(); //firebase theke j category access korchi
     public static  List<String> loadedCategoriesNames = new ArrayList<>(); //j category access kortechi sei category r name store korchi
 
-
     public static void loadCategories(CatagoryAdapter categoryAdapter, Context context){
 
         firebaseFirestore.collection("CATEGORIES").orderBy("index")
@@ -49,6 +50,7 @@ public class DatabaseQueries {
             }
         });
     }
+
 
     public static void loadFragmentData(DashbordAdapter dashbordAdapter,Context context,int index,String categoryName){
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -126,6 +128,7 @@ public class DatabaseQueries {
 
                     }
                     dashbordAdapter.notifyDataSetChanged();
+                    DashbordFragment.swipeRefreshLayout.setRefreshing(false);
                 }else {
                     String error = task.getException().getMessage();
                     Toast.makeText(context, "The error is : "+error, Toast.LENGTH_SHORT).show();
