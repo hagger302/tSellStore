@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SigninSignUp.signUpFragment">
+    tools:context=".SigninSignUp.SignUpFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -178,7 +178,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -186,22 +186,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
-                 <androidx.appcompat.widget.AppCompatButton
-                     android:id="@+id/register_btn"
-                     android:layout_width="175dp"
-                     android:layout_height="45dp"
-                     android:layout_gravity="center_horizontal"
-                     android:layout_marginTop="15dp"
-                     android:text="Register Now"
-                     android:textAllCaps="false"
-                     android:enabled="false"
-                     android:textColor="#E8E1E1"
-                     android:textSize="15sp"
-                     android:textStyle="bold"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/register_btn"
+                    android:layout_width="175dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:enabled="false"
+                    android:text="Register Now"
+                    android:textAllCaps="false"
+                    android:textColor="#E8E1E1"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
 
-                     />
+                    />
 
 
                 <TextView
@@ -240,6 +240,15 @@
                     android:text="back to login" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/close_btn_register"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_cross"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

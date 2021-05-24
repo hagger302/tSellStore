@@ -86,7 +86,7 @@ public class MyWishlistAdapter extends RecyclerView.Adapter<MyWishlistAdapter.Vi
         }
 
         private void setData(String image, String title, long freeCuponsNo, String averageRate, long totalRatingsNo, String price, String cuttedprice, boolean paymentmethod){
-            Glide.with(itemView.getContext()).load(image).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(productImage);
+            Glide.with(itemView.getContext()).load(image).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(productImage);
             productTitle.setText(title);
 
             if(freeCuponsNo !=0){

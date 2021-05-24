@@ -19,12 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tsellstore.NavigationComponent.MainActivity;
 import com.example.tsellstore.R;
-import com.example.tsellstore.SigninSignUp.signinFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class signUpFragment extends Fragment {
+public class SignUpFragment extends Fragment {
     private Button BacktoLogin;
 
 
@@ -46,11 +46,13 @@ public class signUpFragment extends Fragment {
     private EditText user_name,email,password,confirm_password;
     private Button register_btn;
     private  String email_pattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
+    public static boolean closeDisableBtn = false;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firestore;
+    private ImageView close_btn;
 
-    public signUpFragment() {
+    public SignUpFragment() {
         // Required empty public constructor
     }
 
@@ -78,9 +80,16 @@ public class signUpFragment extends Fragment {
         confirm_password = (EditText) view.findViewById(R.id.login_confirm_password_input);
         register_btn = (Button) view.findViewById(R.id.register_btn);
         progress = (ProgressBar) view.findViewById(R.id.progressBar);
+        close_btn = (ImageView) view.findViewById(R.id.close_btn_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+
+        if(closeDisableBtn){
+            close_btn.setVisibility(View.GONE);
+        }else {
+            close_btn.setVisibility(View.VISIBLE);
+        }
         return view;
 
     }
@@ -92,7 +101,7 @@ public class signUpFragment extends Fragment {
         BacktoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(new signinFragment());
+                setFragment(new SigninFragment());
             }
         });
         
@@ -187,35 +196,46 @@ public class signUpFragment extends Fragment {
 
                                 if(task.isSuccessful()){
                                     //upload data to firestore
-                                    Map<Object,String> userData = new HashMap<>();
+                                    Map<String,Object> userData = new HashMap<>();
                                     userData.put("user",user_name.getText().toString());
 
-                                    firestore.collection("USER").add(userData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    firestore.collection("USER").document(firebaseAuth.getUid())
+                                            .set(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                startActivity(new Intent(getActivity(), MainActivity.class));
-                                                getActivity().finish();
-                                            }else {
-                                                progress.setVisibility(View.INVISIBLE);
-                                                //if error comes then enable the button
-                                                register_btn.setEnabled(true);
-                                                register_btn.setTextColor(Color.argb(255,255,255,255));
+                                                Map<String,Object> listSize = new HashMap<>();
+                                                listSize.put("list_size",(long) 0);
 
+                                                firestore.collection("USER").document(firebaseAuth.getUid())
+                                                        .collection("USER_DATA").document("MY_WISHLIST")
+                                                        .set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if(task.isSuccessful()){
+                                                            mainIntent();
+                                                        }else {
+                                                            progress.setVisibility(View.INVISIBLE);
+                                                            //if error comes then enable the button
+                                                            register_btn.setEnabled(true);
+                                                            register_btn.setTextColor(Color.argb(255,255,255,255));
+                                                            String error = task.getException().getMessage();
+                                                            Toast.makeText(getActivity(), "Exception:"+error, Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+                                            }else {
                                                 String error = task.getException().getMessage();
                                                 Toast.makeText(getActivity(), "Exception:"+error, Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
-
-
-
                                 }else {
                                     progress.setVisibility(View.INVISIBLE);
                                     //if error comes then enable the button
                                     register_btn.setEnabled(true);
                                     register_btn.setTextColor(Color.argb(255,255,255,255));
-
                                     String error = task.getException().getMessage();
                                     Toast.makeText(getActivity(), "Exception:"+error, Toast.LENGTH_SHORT).show();
                                 }
@@ -262,6 +282,16 @@ public class signUpFragment extends Fragment {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(parentframeLayout.getId(),fragment);
         fragmentTransaction.commit();
+    }
+
+    private void mainIntent(){
+        if(closeDisableBtn){
+            closeDisableBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+            startActivity(mainIntent);
+        }
+        getActivity().finish();
     }
 
 }

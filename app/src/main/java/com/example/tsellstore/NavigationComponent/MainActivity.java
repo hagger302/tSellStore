@@ -1,11 +1,7 @@
 package com.example.tsellstore.NavigationComponent;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.tsellstore.NavigationComponent.Dashbord.DashbordFragment;
 import com.example.tsellstore.NavigationComponent.MyAccount_Address_Delivery.MyAccountFragment;
 import com.example.tsellstore.NavigationComponent.MyCart.MyCartFragment;
@@ -28,7 +21,11 @@ import com.example.tsellstore.NavigationComponent.MyWishList.MyWishListFragment;
 import com.example.tsellstore.NavigationComponent.Myorders.MyOrdersFragment;
 import com.example.tsellstore.R;
 import com.example.tsellstore.SigninSignUp.RegisterActivity;
+import com.example.tsellstore.SigninSignUp.SignUpFragment;
+import com.example.tsellstore.SigninSignUp.SigninFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -60,9 +57,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout frameLayout;
     private TextView actionBar_logo;
     private Toolbar toolbar;
+    private Dialog signin_dialog;
 
     //for changing the status bar color
     private Window window;
+    public static DrawerLayout drawer;
+
+    //check the user status ----->>
+    private FirebaseUser CurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //default back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
 
@@ -105,30 +107,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             actionBarDrawerToggle.syncState();
             setFragment(new DashbordFragment(), HOME_FRAGMENT);
         }
+
+        signin_dialog = new Dialog(MainActivity.this);
+        signin_dialog.setContentView(R.layout.sign_in_dialog);
+        signin_dialog.setCancelable(true);
+        signin_dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Button sign_in = signin_dialog.findViewById(R.id.signin_btn_quantitydialog);
+        Button sign_up = signin_dialog.findViewById(R.id.signup_btn_quantitydialog);
+
+        Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+
+        sign_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SigninFragment.closeDisableBtn = true;
+                SignUpFragment.closeDisableBtn = true;
+                signin_dialog.dismiss();
+                setSignUpFragment = false; //RegisterActivity te static method declear krchi
+                startActivity(registerIntent);
+            }
+        });
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SigninFragment.closeDisableBtn = true;
+                SignUpFragment.closeDisableBtn = true;
+                signin_dialog.dismiss();
+                setSignUpFragment = true;
+                startActivity(registerIntent);
+            }
+        });
     }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //check the user status - > user null ase ki na seta check krbo ->
+        //user r status r maddhome signout btn enable disable kore diyechi
 
-        /**
-         * -------->>>>>>>>>>>>>>>>>>>>>>by default set the navigation first menu enablede
-         */
-        //by default set the navigation first menu enablede
-        //
-        //------------------------"""""""""""""""""""
+        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(CurrentUser == null){
+            navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
+        }else {
+            navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
+        }
 
-        //autogenerated when we create a NavigationDrawer Activity
-
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.nav_dashbord, R.id.nav_myorders, R.id.nav_rewards, R.id.nav_wishlist, R.id.nav_cart,
-//                R.id.nav_account, R.id.nav_signout)
-//                .setDrawerLayout(drawer)
-//                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
-
-
+    }
 
     @Override
     public void onBackPressed() {
@@ -171,47 +196,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.main_search:
-                break;
-            case R.id.main_notification:
-                break;
-            case R.id.main_cart:
+        int id = item.getItemId();
 
-                Dialog signin_dialog = new Dialog(MainActivity.this);
-                signin_dialog.setContentView(R.layout.sign_in_dialog);
-                signin_dialog.setCancelable(true);
-                signin_dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                Button sign_in = signin_dialog.findViewById(R.id.signin_btn_quantitydialog);
-                Button sign_up = signin_dialog.findViewById(R.id.signup_btn_quantitydialog);
-
-                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
-
-                sign_in.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        signin_dialog.dismiss();
-                        setSignUpFragment = false; //RegisterActivity te static method declear krchi
-                        startActivity(registerIntent);
-                    }
-                });
-                sign_up.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        signin_dialog.dismiss();
-                        setSignUpFragment = true;
-                        startActivity(registerIntent);
-                    }
-                });
+        if(id == R.id.main_search){
+            return true;
+        }else if(id == R.id.main_notification) {
+            return true;
+        }else if(id == R.id.main_cart) {
+            if (CurrentUser == null) {
                 signin_dialog.show();
-                //gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
-                break;
-            case android.R.id.home:
-                if(showCart) {
-                    showCart = false;
-                    finish();
-                }
+            }else {
+                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+            }
+            return true;
+        }else if(id == android.R.id.home) {
+            if(showCart) {
+                showCart = false;
+                finish();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -240,36 +243,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_dashbord:
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        if (CurrentUser != null) {
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_dashbord) {
                 actionBar_logo.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
                 setFragment(new DashbordFragment(), HOME_FRAGMENT);
-                break;
-            case R.id.nav_myorders:
+
+            }
+            else if(id == R.id.nav_myorders) {
                 gotoFragment("My Order", new MyOrdersFragment(), MY_ORDER_FRAGMENT);
-                break;
-            case R.id.nav_rewards:
+            }
+            else if(id == R.id.nav_rewards) {
                 gotoFragment("My Reward", new MyRewardsFragment(), MY_Reward_FRAGMENT);
-                break;
-            case R.id.nav_cart:
+            }
+            else if(id == R.id.nav_cart) {
                 gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
                 //setFragment(new MyCartFragment(),CART_FRAGMENT);
-                break;
-            case R.id.nav_wishlist:
+            }
+            else if(id == R.id.nav_wishlist) {
                 gotoFragment("My Wishlist", new MyWishListFragment(), MY_WISHLIST_FRAGMENT);
-                break;
-            case R.id.nav_account:
+            }
+            else if(id == R.id.nav_account) {
                 gotoFragment("My Account", new MyAccountFragment(), MY_ACCOUNT_FRAGMENT);
-                break;
-            default:
-                Toast.makeText(this, "ILoVeYou-Sweetie", Toast.LENGTH_SHORT).show();
-
+            }
+            else if(id == R.id.nav_signout){
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,RegisterActivity.class));
+                finish();
+            }
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        } else {
+            drawer.closeDrawer(GravityCompat.START);
+            signin_dialog.dismiss();
+            return false;
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+
     }
 
     @Override

@@ -56,6 +56,9 @@ public class GridProductAdapter  extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     Intent productDetailsIntent = new Intent(parent.getContext(), ProductDetailsActivity.class);
+                    //product id access krbo r oi id intent r maddhome next activite pass krbo -----> Product Detail Activity te jbo ebr
+                    productDetailsIntent.putExtra("PRODUCT_ID",horizontalScrollProductModelList.get(position).getProductID());
+
                     parent.getContext().startActivity(productDetailsIntent);
                 }
             });
@@ -68,7 +71,7 @@ public class GridProductAdapter  extends BaseAdapter {
             /**
              * next -> simplely we set this (productImage,productTitle,productDescription,productPrice,) through the constructor
              */
-            Glide.with(parent.getContext()).load(horizontalScrollProductModelList.get(position).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(productImage);
+            Glide.with(parent.getContext()).load(horizontalScrollProductModelList.get(position).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(productImage);
             productTitle.setText(horizontalScrollProductModelList.get(position).getProductTitle());
             productDescription.setText(horizontalScrollProductModelList.get(position).getProductDescription());
             productPrice.setText("Bdt. "+horizontalScrollProductModelList.get(position).getProductPrice()+" /-");

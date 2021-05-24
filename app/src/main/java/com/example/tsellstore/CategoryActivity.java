@@ -28,6 +28,8 @@ public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView category_recyclerview;
     private DashbordAdapter dashbordAdapter;
+    //Dashbord fake list
+    private List<DashbordModel> dashbordModelFakeList = new ArrayList<>();
 
 
     @Override
@@ -41,6 +43,26 @@ public class CategoryActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("CategoryName");
         getSupportActionBar().setTitle(title);
 
+        //dashbord fake list
+        List<SliderModel> sliderModeFakelList = new ArrayList<>();
+        sliderModeFakelList.add(new SliderModel("", "#b9b9b9"));
+        sliderModeFakelList.add(new SliderModel("", "#b9b9b9"));
+        sliderModeFakelList.add(new SliderModel("", "#b9b9b9"));
+        //HorizontalScrollProduct fake list
+        List<HorizontalScrollProductModel> horizontalScrollProductModelFakeList = new ArrayList<>();
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+
+        dashbordModelFakeList.add(new DashbordModel(0,sliderModeFakelList));
+        dashbordModelFakeList.add(new DashbordModel(1,"","#d9d9d9"));
+        dashbordModelFakeList.add(new DashbordModel(2,"","#d9d9d9",horizontalScrollProductModelFakeList,new ArrayList<>()));
+        dashbordModelFakeList.add(new DashbordModel(2,"","#d9d9d9",horizontalScrollProductModelFakeList));
+
+
+
         category_recyclerview = (RecyclerView) findViewById(R.id.category_recyclerview);
 
         //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
@@ -48,6 +70,8 @@ public class CategoryActivity extends AppCompatActivity {
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         category_recyclerview.setLayoutManager(testingLayoutManager);
+
+        dashbordAdapter  = new DashbordAdapter(dashbordModelFakeList);
 
 
         //at first check krbo user 1st e data access korche ki na jodi access kore tobe oi data amra re use krbo
@@ -63,8 +87,8 @@ public class CategoryActivity extends AppCompatActivity {
         if(listPosition == 0){
             loadedCategoriesNames.add(title.toUpperCase());
             lists.add(new ArrayList<DashbordModel>());
-            dashbordAdapter = new DashbordAdapter(lists.get(loadedCategoriesNames.size() - 1));
-            loadFragmentData(dashbordAdapter,this,loadedCategoriesNames.size() - 1,title);
+//            dashbordAdapter = new DashbordAdapter(lists.get(loadedCategoriesNames.size() - 1));
+            loadFragmentData(category_recyclerview,this,loadedCategoriesNames.size() - 1,title);
         }else {
             dashbordAdapter = new DashbordAdapter(lists.get(listPosition));
         }

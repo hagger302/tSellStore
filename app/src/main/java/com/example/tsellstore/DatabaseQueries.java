@@ -1,9 +1,11 @@
 package com.example.tsellstore;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.tsellstore.NavigationComponent.Dashbord.CatagoryAdapter;
@@ -16,6 +18,9 @@ import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel
 import com.example.tsellstore.NavigationComponent.MyWishList.MyWishListModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,14 +29,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseQueries {
-    public static List<CatagoryModel> categoryModelList = new ArrayList<>();
+
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    public static List<CatagoryModel> categoryModelList = new ArrayList<>();
     //public static List<DashbordModel> dashbordModelList = new ArrayList<>();
 
     public static List<List<DashbordModel>> lists = new ArrayList<>(); //firebase theke j category access korchi
     public static  List<String> loadedCategoriesNames = new ArrayList<>(); //j category access kortechi sei category r name store korchi
+    public static  List<String> wishList = new ArrayList<>();
 
-    public static void loadCategories(CatagoryAdapter categoryAdapter, Context context){
+    public static void loadCategories(final RecyclerView categoryRecyclerView,Context context){
 
         firebaseFirestore.collection("CATEGORIES").orderBy("index")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -42,6 +49,8 @@ public class DatabaseQueries {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()){
                         categoryModelList.add(new CatagoryModel(documentSnapshot.get("icon").toString(),documentSnapshot.get("categoryName").toString()));
                     }
+                    CatagoryAdapter categoryAdapter = new CatagoryAdapter(categoryModelList);
+                    categoryRecyclerView.setAdapter(categoryAdapter);
                     categoryAdapter.notifyDataSetChanged();
                 }else {
                     String error = task.getException().getMessage();
@@ -51,8 +60,7 @@ public class DatabaseQueries {
         });
     }
 
-
-    public static void loadFragmentData(DashbordAdapter dashbordAdapter,Context context,int index,String categoryName){
+    public static void loadFragmentData(RecyclerView dashBordRecyclerView,Context context,int index,String categoryName){
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("CATEGORIES").document(categoryName.toUpperCase())
                 .collection("TOP_DEALS").orderBy("index")
@@ -127,6 +135,9 @@ public class DatabaseQueries {
                         }
 
                     }
+
+                    DashbordAdapter dashbordAdapter = new DashbordAdapter(lists.get(index));
+                    dashBordRecyclerView.setAdapter(dashbordAdapter);
                     dashbordAdapter.notifyDataSetChanged();
                     DashbordFragment.swipeRefreshLayout.setRefreshing(false);
                 }else {
@@ -136,5 +147,24 @@ public class DatabaseQueries {
             }
         });
 
+    }
+
+    public static void loadWishList(Context context,Dialog loding_dialog){
+
+        firebaseFirestore.collection("USER").document(FirebaseAuth.getInstance().getUid())
+                .collection("USER_DATA").document("MY_WISHLIST").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(long x = 0 ; x < (long) task.getResult().get("list_size") ; x++) //list_size -> put korchi signup fragment e r get krsi ekhane
+                                wishList.add(task.getResult().get("product_ID_" + x).toString());
+                        }else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(context, "The error is : "+error, Toast.LENGTH_SHORT).show();
+                        }
+                        loding_dialog.dismiss();
+                    }
+                });
     }
 }

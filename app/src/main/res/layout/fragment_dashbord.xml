@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -41,6 +42,7 @@
                 android:id="@+id/dashBord_RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -111,6 +113,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/reload_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reload"
+        android:backgroundTint="@color/tStore_ochan_lightBlue"
+        android:textColor="@color/black"
+        android:textAllCaps="false"
+        android:translationZ="8dp"
+        android:stateListAnimator="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout9"
+        app:layout_constraintVertical_bias="0.9" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

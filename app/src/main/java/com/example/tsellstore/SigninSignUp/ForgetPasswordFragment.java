@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tsellstore.R;
-import com.example.tsellstore.SigninSignUp.signinFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -152,7 +151,7 @@ public class ForgetPasswordFragment extends Fragment {
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(new signinFragment());
+                setFragment(new SigninFragment());
             }
         });
 

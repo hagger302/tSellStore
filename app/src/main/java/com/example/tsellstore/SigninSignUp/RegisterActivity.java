@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
 import com.example.tsellstore.R;
-import com.example.tsellstore.SigninSignUp.signinFragment;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -26,9 +25,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(setSignUpFragment){
             setSignUpFragment = false;
-            setDefaultFragment(new signUpFragment());
+            setDefaultFragment(new SignUpFragment());
         }else {
-            setDefaultFragment(new signinFragment());
+            setDefaultFragment(new SigninFragment());
         }
     }
 
@@ -36,9 +35,12 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if(keyCode == KeyEvent.KEYCODE_BACK){
+            SigninFragment.closeDisableBtn = false;
+            SignUpFragment.closeDisableBtn = false;
+
             if(onForgetPasswordFragment){
                 onForgetPasswordFragment = false;
-                setFragment(new signinFragment());
+                setFragment(new SigninFragment());
                 return false;
             }
         }

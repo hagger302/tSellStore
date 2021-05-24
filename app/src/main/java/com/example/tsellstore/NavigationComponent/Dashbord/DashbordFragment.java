@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.Dash
 import com.example.tsellstore.NavigationComponent.Dashbord.MainRecyclerView.DashbordModel;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderAdapter;
 import com.example.tsellstore.NavigationComponent.Dashbord.ViewPager.SliderModel;
+import com.example.tsellstore.NavigationComponent.MainActivity;
 import com.example.tsellstore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,12 +60,19 @@ public class DashbordFragment extends Fragment {
     private ConnectivityManager connectivityManager;
     private NetworkInfo networkInfo;
 
+    //Category fake list
+    private List<CatagoryModel> categoryModelFakeList = new ArrayList<>();
+    //Dashbord fake list
+    private List<DashbordModel> dashbordModelFakeList = new ArrayList<>();
+
+    //swipe Refresh Layout
     public static SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView recyclerView;
+    private RecyclerView categoryRecyclerView;
     private CatagoryAdapter categoryAdapter;
     RecyclerView dashbord_recyclerview;
     private ImageView noInternetConnection;
+    private Button reloadBtn;
 
 
     private DashbordAdapter dashbordAdapter;
@@ -78,6 +87,57 @@ public class DashbordFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_dashbord, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        reloadBtn = (Button) view.findViewById(R.id.reload_btn);
+
+        //adding the recycler view
+        categoryRecyclerView = (RecyclerView) view.findViewById(R.id.catagory_recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        categoryRecyclerView.setLayoutManager(linearLayoutManager);
+        //create the list and the list into Adapter
+
+        ////////////////////////////--------Main Recycler View ------------------>>>>>>>>>>>>>>>>>>>
+        dashbord_recyclerview = (RecyclerView) view.findViewById(R.id.dashBord_RecyclerView);
+        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
+        testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dashbord_recyclerview.setLayoutManager(testingLayoutManager);
+
+
+        //category fake list
+        categoryModelFakeList.add(new CatagoryModel("null", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+        categoryModelFakeList.add(new CatagoryModel("", ""));
+
+        //dashbord fake list
+        List<SliderModel> sliderModeFakelList = new ArrayList<>();
+        sliderModeFakelList.add(new SliderModel("null", "#b9b9b9"));
+        sliderModeFakelList.add(new SliderModel("null", "#b9b9b9"));
+        sliderModeFakelList.add(new SliderModel("null", "#b9b9b9"));
+        //HorizontalScrollProduct fake list
+        List<HorizontalScrollProductModel> horizontalScrollProductModelFakeList = new ArrayList<>();
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+        horizontalScrollProductModelFakeList.add(new HorizontalScrollProductModel("", "", "", "", ""));
+
+        dashbordModelFakeList.add(new DashbordModel(0,sliderModeFakelList));
+        dashbordModelFakeList.add(new DashbordModel(1,"","#d9d9d9"));
+        dashbordModelFakeList.add(new DashbordModel(2,"","#d9d9d9",horizontalScrollProductModelFakeList,new ArrayList<>()));
+        dashbordModelFakeList.add(new DashbordModel(2,"","#d9d9d9",horizontalScrollProductModelFakeList));
+
+
+        categoryAdapter = new CatagoryAdapter(categoryModelFakeList);
+
+
+        dashbordAdapter = new DashbordAdapter(dashbordModelFakeList);
+
 
         ///////--------->>>>> Check the Internet Permission
         noInternetConnection = (ImageView) view.findViewById(R.id.no_internet_connection);
@@ -85,45 +145,38 @@ public class DashbordFragment extends Fragment {
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected() == true) { /////////////////--------->Check the Internet Permission
+            MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             noInternetConnection.setVisibility(View.GONE);
+            reloadBtn.setVisibility(View.GONE);
+            categoryRecyclerView.setVisibility(View.VISIBLE);
+            dashbord_recyclerview.setVisibility(View.VISIBLE);
 
-            //adding the recycler view
-            recyclerView = (RecyclerView) view.findViewById(R.id.catagory_recyclerView);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
-
-            //create the list and the list into Adapter
-
-            categoryAdapter = new CatagoryAdapter(categoryModelList);
-            recyclerView.setAdapter(categoryAdapter);
-
+            //categoryModel
             if (categoryModelList.size() == 0) {
-                loadCategories(categoryAdapter, getContext());
+                loadCategories(categoryRecyclerView, getContext());
             } else {
+                categoryAdapter = new CatagoryAdapter(categoryModelList);
                 categoryAdapter.notifyDataSetChanged();
             }
-
-            ////////////////////////////--------Main Recycler View ------------------>>>>>>>>>>>>>>>>>>>
-            dashbord_recyclerview = (RecyclerView) view.findViewById(R.id.dashBord_RecyclerView);
-            LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
-            testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            dashbord_recyclerview.setLayoutManager(testingLayoutManager);
-
-
+            categoryRecyclerView.setAdapter(categoryAdapter);
             if (lists.size() == 0) {
                 loadedCategoriesNames.add("HOME");
                 lists.add(new ArrayList<DashbordModel>());
-                dashbordAdapter = new DashbordAdapter(lists.get(0));
-                loadFragmentData(dashbordAdapter, getContext(), 0, "HOME");
+
+                loadFragmentData(dashbord_recyclerview, getContext(), 0, "HOME");
             } else {
                 dashbordAdapter = new DashbordAdapter(lists.get(0));
                 dashbordAdapter.notifyDataSetChanged();
             }
             dashbord_recyclerview.setAdapter(dashbordAdapter);
         } else {
+            MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            categoryRecyclerView.setVisibility(View.GONE);
+            dashbord_recyclerview.setVisibility(View.GONE);
+
             Glide.with(this).load(R.drawable.ic_home).into(noInternetConnection);
             noInternetConnection.setVisibility(View.VISIBLE);
+            reloadBtn.setVisibility(View.VISIBLE);
         }
         //swipeRefresh Layout
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -131,30 +184,55 @@ public class DashbordFragment extends Fragment {
             public void onRefresh() {
                 swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.black));
                 swipeRefreshLayout.setRefreshing(true);
+                reloadPage();
+            }
+        });
 
-                categoryModelList.clear();
-                lists.clear(); //database Query te Dash bord Model list
-                loadedCategoriesNames.clear();
-
-                if (networkInfo != null && networkInfo.isConnected() == true) {
-                    noInternetConnection.setVisibility(View.GONE);
-                    //categories load hbe
-                    loadCategories(categoryAdapter, getContext());
-                    //fragment r moddhe data load hbe
-                    loadedCategoriesNames.add("HOME");
-                    lists.add(new ArrayList<DashbordModel>());
-                    //ekhane ekta parameter create krbo cz jkn refresh ses hoye jabe tkn swipe Refresh Layout progressbar invisible hoye jabe
-                    loadFragmentData(dashbordAdapter, getContext(), 0, "HOME");
-
-                } else {
-                    Glide.with(getActivity()).load(R.drawable.ic_home).into(noInternetConnection);
-                    noInternetConnection.setVisibility(View.VISIBLE);
-                }
+        reloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reloadPage();
             }
         });
         return view;
     }
 
+    //reload page
+    private void reloadPage(){
+        networkInfo = connectivityManager.getActiveNetworkInfo();
+        categoryModelList.clear();
+        lists.clear(); //database Query te Dash bord Model list
+        loadedCategoriesNames.clear();
+
+        if (networkInfo != null && networkInfo.isConnected() == true) {
+            MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            noInternetConnection.setVisibility(View.GONE);
+            reloadBtn.setVisibility(View.GONE);
+            categoryRecyclerView.setVisibility(View.VISIBLE);
+            dashbord_recyclerview.setVisibility(View.VISIBLE);
+
+            categoryRecyclerView.setAdapter(categoryAdapter); //original adapter set korchi database Queries r moddhe
+            dashbord_recyclerview.setAdapter(dashbordAdapter);
+            //categories load hbe
+            loadCategories(categoryRecyclerView, getContext());
+            //fragment r moddhe data load hbe
+            loadedCategoriesNames.add("HOME");
+            lists.add(new ArrayList<DashbordModel>());
+            //ekhane ekta parameter create krbo cz jkn refresh ses hoye jabe tkn swipe Refresh Layout progressbar invisible hoye jabe
+            loadFragmentData(dashbord_recyclerview, getContext(), 0, "HOME");
+
+        } else {
+            MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            Toast.makeText(getActivity(), "No Internet Connection ...", Toast.LENGTH_SHORT).show();
+            categoryRecyclerView.setVisibility(View.GONE);
+            dashbord_recyclerview.setVisibility(View.GONE);
+            Glide.with(getActivity()).load(R.drawable.ic_home).into(noInternetConnection);
+            noInternetConnection.setVisibility(View.VISIBLE);
+            reloadBtn.setVisibility(View.VISIBLE);
+
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
     /**
      * //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
      *

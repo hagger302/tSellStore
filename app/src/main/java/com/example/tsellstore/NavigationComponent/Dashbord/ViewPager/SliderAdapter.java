@@ -34,7 +34,7 @@ public class SliderAdapter extends PagerAdapter {
         //constraintLayout r upre background Tint set krbo
 //        constraintLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModelList.get(position).getBackgroundColor())));
 
-        Glide.with(container.getContext()).load(sliderModelList.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(banner);
+        Glide.with(container.getContext()).load(sliderModelList.get(position).getBanner()).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(banner);
 
         container.addView(view, 0);
         return view;

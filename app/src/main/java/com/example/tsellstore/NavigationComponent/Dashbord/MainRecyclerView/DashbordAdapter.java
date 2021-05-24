@@ -63,7 +63,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
             case 2:
                 return DashbordModel.HORIZONTAL_PRODUCT_VIEW;
             case 3:
-                return  DashbordModel.GRID_PRODUCT_VIEW;
+                return DashbordModel.GRID_PRODUCT_VIEW;
             default:
                 return -1;
         }
@@ -83,15 +83,15 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 return new BannerSliderViewHolder(view);
 
             case DashbordModel.STRIP_ADD_BANNER:
-                View strip_add_banner_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.strip_add_layout,parent,false);
+                View strip_add_banner_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.strip_add_layout, parent, false);
                 return new StripAddBannerViewHolder(strip_add_banner_view);
 
             case DashbordModel.HORIZONTAL_PRODUCT_VIEW:
-                View horizontal_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_layout,parent,false);
+                View horizontal_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_layout, parent, false);
                 return new HorizontalProductViewViewHolder(horizontal_product_view);
 
             case DashbordModel.GRID_PRODUCT_VIEW:
-                View grid_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_product_laout,parent,false);
+                View grid_product_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_product_laout, parent, false);
                 return new GridProductViewViewHolder(grid_product_view);
             default:
                 return null;
@@ -121,24 +121,24 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 String resource = dashbordModelList.get(position).getResource();
                 String color = dashbordModelList.get(position).getBackgroundColor();
 
-                ((StripAddBannerViewHolder)holder).setStripAdd(resource,color);
+                ((StripAddBannerViewHolder) holder).setStripAdd(resource, color);
                 break;
 
-               case DashbordModel.HORIZONTAL_PRODUCT_VIEW:
-                   String layoutColor = dashbordModelList.get(position).getBackgroundColor();
-                   String title = dashbordModelList.get(position).getTitle();
-                   List<HorizontalScrollProductModel> horizontalScrollProductModelList = dashbordModelList.get(position).getHorizontalScrollProductModelList();
-                   List<MyWishListModel> viewAllProductList = dashbordModelList.get(position).getViewAllProductList();
+            case DashbordModel.HORIZONTAL_PRODUCT_VIEW:
+                String layoutColor = dashbordModelList.get(position).getBackgroundColor();
+                String title = dashbordModelList.get(position).getTitle();
+                List<HorizontalScrollProductModel> horizontalScrollProductModelList = dashbordModelList.get(position).getHorizontalScrollProductModelList();
+                List<MyWishListModel> viewAllProductList = dashbordModelList.get(position).getViewAllProductList();
 
-                   ((HorizontalProductViewViewHolder)holder).setHorizontalProductLayout(horizontalScrollProductModelList,title,layoutColor,viewAllProductList);
-                   break;
+                ((HorizontalProductViewViewHolder) holder).setHorizontalProductLayout(horizontalScrollProductModelList, title, layoutColor, viewAllProductList);
+                break;
 
             case DashbordModel.GRID_PRODUCT_VIEW:
                 String gridLayoutColor = dashbordModelList.get(position).getBackgroundColor();
                 String gridtitle = dashbordModelList.get(position).getTitle();
                 List<HorizontalScrollProductModel> gridScrollProductModelList = dashbordModelList.get(position).getHorizontalScrollProductModelList();
 
-                ((GridProductViewViewHolder)holder).setGridProductLayout(gridScrollProductModelList,gridtitle,gridLayoutColor);
+                ((GridProductViewViewHolder) holder).setGridProductLayout(gridScrollProductModelList, gridtitle, gridLayoutColor);
                 break;
             default:
                 return;
@@ -149,6 +149,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return dashbordModelList.size();
     }
+
     //////////////////////////--------BANNER sLIDER vIEWpAGGER---------->>>>>>>>>>>>>>>>>>>>>
     public class BannerSliderViewHolder extends RecyclerView.ViewHolder {
 
@@ -179,17 +180,17 @@ public class DashbordAdapter extends RecyclerView.Adapter {
              * current page r variable upre declare kore rakchi caz bar bar ei method call hoi so
              */
             currentPage = 2;
-            if(timer != null){
+            if (timer != null) {
                 timer.cancel();
             }
             //tric for infinte bannar slider model data
             arrangeList = new ArrayList<>();
-            for(int x = 0; x<sliderModelList.size();x++){
-                arrangeList.add(x,sliderModelList.get(x)); //sliderModelList r sokol eliment copy hoye giyeche
+            for (int x = 0; x < sliderModelList.size(); x++) {
+                arrangeList.add(x, sliderModelList.get(x)); //sliderModelList r sokol eliment copy hoye giyeche
             }
             //arrangement krbo
-            arrangeList.add(0,sliderModelList.get(sliderModelList.size() - 2)); //second last item k 0 position e set kore diyechi
-            arrangeList.add(1,sliderModelList.get(sliderModelList.size() - 1)); //second first item k 1 position e set kore diyechi
+            arrangeList.add(0, sliderModelList.get(sliderModelList.size() - 2)); //second last item k 0 position e set kore diyechi
+            arrangeList.add(1, sliderModelList.get(sliderModelList.size() - 1)); //second first item k 1 position e set kore diyechi
             arrangeList.add(sliderModelList.get(0));
             arrangeList.add(sliderModelList.get(1));
 
@@ -237,6 +238,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+
         private void PagerLooper(List<SliderModel> sliderModelList) {
             //1 by 1 banner chage hbe
 
@@ -249,6 +251,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 bannerSliderViewPagger.setCurrentItem(currentPage, false);
             }
         }
+
         private void startBannerSlideShow(List<SliderModel> sliderModelList) {
             Handler handler = new Handler();
             Runnable update = new Runnable() {
@@ -268,15 +271,17 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                 }
             }, DELAY_TIME, PERIOD_TIME);
         }
+
         private void stopBannerSlideShow() {
             timer.cancel();
         }
     }
 
     //////////////////////////--------Strip add Image---------->>>>>>>>>>>>>>>>>>>>>
-    public class StripAddBannerViewHolder extends RecyclerView.ViewHolder{
+    public class StripAddBannerViewHolder extends RecyclerView.ViewHolder {
         private ImageView stripAddImage;
         private ConstraintLayout stripConstraintLayout;
+
         public StripAddBannerViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -284,15 +289,16 @@ public class DashbordAdapter extends RecyclerView.Adapter {
             stripConstraintLayout = (ConstraintLayout) itemView.findViewById(R.id.strip_add_image_Constraintlayout);
 
         }
-        private void setStripAdd(String resource,String backgroundColor){
+
+        private void setStripAdd(String resource, String backgroundColor) {
             //stripAddImage.setImageResource(resource);
-            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(stripAddImage);
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(stripAddImage);
             stripConstraintLayout.setBackgroundColor(Color.parseColor(backgroundColor));
         }
     }
 
     //////////////////////////--------Horizontal product Layout---------->>>>>>>>>>>>>>>>>>>>>
-    public class HorizontalProductViewViewHolder extends RecyclerView.ViewHolder{
+    public class HorizontalProductViewViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout container;
         private TextView todays_deals;
         private Button view_all;
@@ -302,7 +308,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
         public HorizontalProductViewViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            container=(ConstraintLayout) itemView.findViewById(R.id.containerHorizontalProductLAyout);
+            container = (ConstraintLayout) itemView.findViewById(R.id.containerHorizontalProductLAyout);
             todays_deals = (TextView) itemView.findViewById(R.id.horizontal_scroll_layout_title);
             view_all = (Button) itemView.findViewById(R.id.horizontal_scroll_layout_button_viewAll);
             horizontal_list_item_recyclerView = (RecyclerView) itemView.findViewById(R.id.horizontal_scroll_layout_recyclerview);
@@ -311,10 +317,10 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
         }
 
-        private void setHorizontalProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList, String title, String color, List<MyWishListModel> viewAllProductList){
+        private void setHorizontalProductLayout(List<HorizontalScrollProductModel> horizontalScrollProductModelList, String title, String color, List<MyWishListModel> viewAllProductList) {
             container.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color))); //ei color list r theke o bar kora lagbe tai onBindViewHolder e jbo
             todays_deals.setText(title);
-            if(horizontalScrollProductModelList.size() >3){
+            if (horizontalScrollProductModelList.size() > 3) {
                 view_all.setVisibility(View.VISIBLE);
 
                 view_all.setOnClickListener(new View.OnClickListener() {
@@ -323,12 +329,12 @@ public class DashbordAdapter extends RecyclerView.Adapter {
                         //list access korchi
                         ViewAllActivity.wishListModelList = viewAllProductList;
                         Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
-                        intent.putExtra("layout_code",0);
-                        intent.putExtra("title",title);
+                        intent.putExtra("layout_code", 0);
+                        intent.putExtra("title", title);
                         itemView.getContext().startActivity(intent);
                     }
                 });
-            }else{
+            } else {
                 view_all.setVisibility(View.INVISIBLE);
             }
 
@@ -342,7 +348,7 @@ public class DashbordAdapter extends RecyclerView.Adapter {
     }
 
     //////////////////////////--------Grid Product Image---------->>>>>>>>>>>>>>>>>>>>>
-    public class GridProductViewViewHolder extends  RecyclerView.ViewHolder{
+    public class GridProductViewViewHolder extends RecyclerView.ViewHolder {
         private ConstraintLayout container;
         private androidx.gridlayout.widget.GridLayout gridLayout;
         private Button view_all_grid;
@@ -350,16 +356,17 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
         public GridProductViewViewHolder(@NonNull View itemView) {
             super(itemView);
-             productTitle = (TextView) itemView.findViewById(R.id.grid_product_title);
-             view_all_grid = (Button) itemView.findViewById(R.id.grid_product_button_view_all);
-            gridLayout =  itemView.findViewById(R.id.grid_layout);
-            container =  itemView.findViewById(R.id.containerGridProductItem);
+            productTitle = (TextView) itemView.findViewById(R.id.grid_product_title);
+            view_all_grid = (Button) itemView.findViewById(R.id.grid_product_button_view_all);
+            gridLayout = itemView.findViewById(R.id.grid_layout);
+            container = itemView.findViewById(R.id.containerGridProductItem);
         }
-        private void setGridProductLayout(List<HorizontalScrollProductModel>horizontalScrollProductModelList,String title,String Gridcolor){
+
+        private void setGridProductLayout(List<HorizontalScrollProductModel> horizontalScrollProductModelList, String title, String Gridcolor) {
 
             productTitle.setText(title);
 
-            for(int x=0; x<4; x++){
+            for (int x = 0; x < 4; x++) {
                 ImageView productImage = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_image);
                 TextView productTitle = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_title);
                 TextView productDescription = gridLayout.getChildAt(x).findViewById(R.id.h_s_product_description);
@@ -367,36 +374,41 @@ public class DashbordAdapter extends RecyclerView.Adapter {
 
                 container.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(Gridcolor)));
                 //productImage.setImageResource(horizontalScrollProductModelList.get(x).getProductImage());
-                Glide.with(itemView.getContext()).load(horizontalScrollProductModelList.get(x).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.ic_home)).into(productImage);
+                Glide.with(itemView.getContext()).load(horizontalScrollProductModelList.get(x).getProductImage()).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(productImage);
                 productTitle.setText(horizontalScrollProductModelList.get(x).getProductTitle());
                 productDescription.setText(horizontalScrollProductModelList.get(x).getProductDescription());
-                productPrice.setText("Bdt. "+horizontalScrollProductModelList.get(x).getProductPrice()+" /-");
+                productPrice.setText("Bdt. " + horizontalScrollProductModelList.get(x).getProductPrice() + " /-");
 
                 gridLayout.getChildAt(x).setBackgroundColor(Color.parseColor("#ffffff"));
 
-                gridLayout.setOnClickListener(new View.OnClickListener() {
+                if (!title.equals("")) {
+                    int finalX = x;
+                    gridLayout.getChildAt(x).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                            productDetailsIntent.putExtra("PRODUCT_ID",horizontalScrollProductModelList.get(finalX).getProductID());
+                            itemView.getContext().startActivity(productDetailsIntent);
+                        }
+                    });
+                }
+            }
+
+            if (!title.equals("")) {
+                view_all_grid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
-                        itemView.getContext().startActivity(productDetailsIntent);
+                        //view all btn e press korle view all activity te jabe so view all activity te list globally declare korechi
+                        //ekn list  set krte hbe
+                        ViewAllActivity.horizontalScrollProductModelList = horizontalScrollProductModelList; //parameter r maddhome horizontalScrollProductModelList eta paichilm
+                        Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
+                        intent.putExtra("layout_code", 1);
+                        //intent r maddhome title o pass korbo -> title get krbo ViewAllActivity te
+                        intent.putExtra("title", title);
+                        itemView.getContext().startActivity(intent);
                     }
                 });
             }
-
-
-            view_all_grid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //view all btn e press korle view all activity te jabe so view all activity te list globally declare korechi
-                    //ekn list  set krte hbe
-                    ViewAllActivity.horizontalScrollProductModelList = horizontalScrollProductModelList; //parameter r maddhome horizontalScrollProductModelList eta paichilm
-                    Intent intent = new Intent(itemView.getContext(), ViewAllActivity.class);
-                    intent.putExtra("layout_code",1);
-                    //intent r maddhome title o pass korbo -> title get krbo ViewAllActivity te
-                    intent.putExtra("title",title);
-                    itemView.getContext().startActivity(intent);
-                }
-            });
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.tsellstore.NavigationComponent.Dashbord;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -64,26 +65,30 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
             categoryName = (TextView) itemView.findViewById(R.id.catagory_Name);
         }
 
+
         private void setCategoryIcon(String iconUrl){
             if(!iconUrl.equals("null")){
-                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.dress_one)).into(icon);
+                Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.drawable.ic_placeholder)).into(icon);
+            }else {
+                icon.setImageResource(R.drawable.ic_home);
             }
 
         }
         private void setCategory(String name,int position){
             categoryName.setText(name);
+            if(!name.equals("")) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (position != 0) {
+                            Intent intent = new Intent(itemView.getContext(), CategoryActivity.class);
+                            intent.putExtra("CategoryName", name);
+                            itemView.getContext().startActivity(intent);
+                        }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(position != 0){
-                        Intent intent = new Intent(itemView.getContext(), CategoryActivity.class);
-                        intent.putExtra("CategoryName",name);
-                        itemView.getContext().startActivity(intent);
                     }
-
-                }
-            });
+                });
+            }
         }
     }
 }

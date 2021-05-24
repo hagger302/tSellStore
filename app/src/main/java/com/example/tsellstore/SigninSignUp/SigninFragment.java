@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class signinFragment extends Fragment {
+public class SigninFragment extends Fragment {
 
 
     private Button RegistrationButton;
@@ -37,12 +38,14 @@ public class signinFragment extends Fragment {
 
     private EditText email_login,password_login;
     private Button login_btn,forget_password_btn;
+    private ImageView close_btn;
     private  String email_pattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
     private ProgressBar progressBar;
 
     private FirebaseAuth firebaseAuth;
 
-    public signinFragment() {
+    public static boolean closeDisableBtn = false;
+    public SigninFragment() {
         // Required empty public constructor
     }
 
@@ -74,9 +77,16 @@ public class signinFragment extends Fragment {
         login_btn = (Button) view.findViewById(R.id.button);
         progressBar = (ProgressBar) view.findViewById(R.id.login_progress);
         forget_password_btn= (Button) view.findViewById(R.id.forget_password);
+        close_btn= (ImageView) view.findViewById(R.id.closeBtn);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        if(closeDisableBtn){
+            close_btn.setVisibility(View.GONE);
+        }else {
+            close_btn.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -87,7 +97,7 @@ public class signinFragment extends Fragment {
         RegistrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setFragment(new signUpFragment());
+                setFragment(new SignUpFragment());
             }
         });
 
@@ -99,6 +109,12 @@ public class signinFragment extends Fragment {
             }
         });
 
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainIntent();
+            }
+        });
         email_login.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -190,5 +206,15 @@ public class signinFragment extends Fragment {
             login_btn.setEnabled(false);
             login_btn.setTextColor(Color.argb(50,255,255,255));
         }
+    }
+
+    private void mainIntent(){
+        if(closeDisableBtn){
+            closeDisableBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+            startActivity(mainIntent);
+        }
+        getActivity().finish();
     }
 }
